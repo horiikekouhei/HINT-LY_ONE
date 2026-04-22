@@ -11,7 +11,7 @@ interface Props {
   onConfirm: () => void;
 }
 
-export default function Phase3Check({ room, playerId, isGuesser, isHost, onToggleEliminate, onConfirm }: Props) {
+export default function Phase3Check({ room, playerId, isGuesser, onToggleEliminate, onConfirm }: Props) {
   const round = room.currentRound!;
   const hintsObj = round.hints || {};
   const hints = Object.values(hintsObj);

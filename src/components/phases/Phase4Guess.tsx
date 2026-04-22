@@ -10,7 +10,7 @@ interface Props {
   onSubmit: (guess: string) => void;
 }
 
-export default function Phase4Guess({ room, playerId, isGuesser, onSubmit }: Props) {
+export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
   const [guess, setGuess] = useState('');
   const round = room.currentRound!;
   const hintsObj = round.hints || {};

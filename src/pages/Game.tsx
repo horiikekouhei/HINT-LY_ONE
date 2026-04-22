@@ -118,7 +118,6 @@ export default function Game() {
         {room.phase === 'phase4_guess' && (
           <Phase4Guess
             room={room}
-            playerId={playerId}
             isGuesser={isGuesser}
             onSubmit={(guess) => submitGuess && submitGuess(guess)}
           />

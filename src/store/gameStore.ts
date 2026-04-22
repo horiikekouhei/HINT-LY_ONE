@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { ref, set, onValue, update, get } from 'firebase/database';
 import { db } from '../firebase/config';
-import type { Room, Player, Round, GamePhase, Hint, RoundResult } from '../types/game';
+import type { Room, Player, Round, Hint, RoundResult } from '../types/game';
 import { TOPIC_LIST } from '../data/topics';
 
 // ランダムIDを生成
