@@ -11,7 +11,7 @@ export function generateId(length = 6): string {
 }
 
 // プレイヤーIDをセッションストレージに保存・取得
-const PLAYER_ID_KEY = 'justone_player_id';
+const PLAYER_ID_KEY = 'onlywanword_player_id';
 export function getOrCreatePlayerId(): string {
   let id = sessionStorage.getItem(PLAYER_ID_KEY);
   if (!id) {
@@ -215,14 +215,14 @@ export function useGameStore() {
   const [room, setRoom] = useState<Room | null>(null);
   const [playerId] = useState<string>(() => getOrCreatePlayerId());
   const [playerName, setPlayerName] = useState<string>(
-    () => sessionStorage.getItem('justone_player_name') ?? ''
+    () => sessionStorage.getItem('onlywanword_player_name') ?? ''
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const savePlayerName = useCallback((name: string) => {
     setPlayerName(name);
-    sessionStorage.setItem('justone_player_name', name);
+    sessionStorage.setItem('onlywanword_player_name', name);
   }, []);
 
   const subscribeToRoom = useCallback((roomId: string) => {
