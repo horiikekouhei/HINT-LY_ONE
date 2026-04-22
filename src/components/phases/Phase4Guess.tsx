@@ -5,7 +5,6 @@ import '../../pages/Game.css';
 
 interface Props {
   room: Room;
-  playerId: string;
   isGuesser: boolean;
   onSubmit: (guess: string) => void;
 }
