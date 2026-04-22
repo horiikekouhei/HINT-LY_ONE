@@ -1,109 +1,81 @@
-.waiting-page {
-  justify-content: center;
-}
-
 .waiting-card {
-  max-width: 500px;
-  text-align: center;
+  max-width: 480px;
+  padding: 40px;
 }
 
 .room-id-display {
-  margin: 32px 0;
+  margin: 24px 0 40px;
   padding: 24px;
   background: var(--clr-bg2);
   border-radius: var(--radius);
   border: 3px dashed var(--clr-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .room-id-label {
-  display: block;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--clr-text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .room-id-value {
-  font-size: 3rem;
+  font-size: 3.2rem;
+  line-height: 1;
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
-  letter-spacing: 0.4rem;
+  letter-spacing: 0.3rem;
   color: var(--clr-primary);
-  display: block;
   margin-bottom: 16px;
 }
 
 .player-list-section {
-  text-align: left;
-  margin-bottom: 32px;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
 .section-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  color: var(--clr-text);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .players-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .player-card {
-  background: var(--clr-bg);
-  padding: 12px 20px;
+  height: 56px;
+  padding: 0 20px;
   border-radius: 100px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 2px solid var(--clr-border);
-  animation: fadeIn 0.3s ease-out forwards;
-}
-
-.player-card.is-me {
-  border-color: var(--clr-primary);
-  background: white;
-}
-
-.player-avatar {
-  width: 32px;
-  height: 32px;
-  background: var(--grad-primary);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
+  border-width: 3px;
 }
 
 .player-name {
+  font-size: 1.05rem;
   font-weight: 700;
-  flex: 1;
-}
-
-.host-badge {
-  font-size: 0.75rem;
-  background: var(--clr-yellow);
-  color: var(--clr-text);
-  padding: 2px 10px;
-  border-radius: 100px;
-  font-weight: 800;
 }
 
 .waiting-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
+  gap: 20px;
 }
 
 .min-players-hint {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--clr-secondary);
+  background: #fff5f5;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 2px solid #fed7d7;
 }

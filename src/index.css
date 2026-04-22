@@ -42,9 +42,15 @@ body {
   font-family: 'Outfit', 'Noto Sans JP', sans-serif;
   background-color: var(--clr-bg);
   color: var(--clr-text);
-  line-height: 1.6;
+  line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 /* ============================================================
@@ -150,6 +156,7 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
+  display: inline-block;
 }
 
 .text-gradient-gold {
