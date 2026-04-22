@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiPlusCircle, FiLogIn, FiHash } from 'react-icons/fi';
-import { FaDog } from 'react-icons/fa';
 import { useGameStore } from '../store/gameStore';
 import './Lobby.css';
 
@@ -28,16 +27,12 @@ export default function Lobby() {
     <div className="page lobby-page">
       {/* タイトルロゴ */}
       <div className="lobby-logo animate-fadeIn">
-        <div className="logo-gem animate-float" style={{ position: 'relative', background: 'none' }}>
-          <div className="dog-ear left" />
-          <div className="dog-ear right" />
-          <FaDog size={80} color="var(--clr-primary)" />
-        </div>
+        <div className="logo-gem animate-float">💎</div>
         <h1 className="logo-title">
-          <span className="text-gradient">Only Wan</span>
-          <span className="logo-one">Word</span>
+          <span className="text-gradient">HINT-LY</span>
+          <span className="logo-one">ONE</span>
         </h1>
-        <p className="logo-subtitle">言葉をひとつに、ワンチャンス！</p>
+        <p className="logo-subtitle">みんなで遊ぶ、ワードヒントゲーム</p>
       </div>
 
       {/* カード */}

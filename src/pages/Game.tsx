@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaDog, FaPaw } from 'react-icons/fa';
 import { useGameStore } from '../store/gameStore';
 import type { RoundResult } from '../types/game';
 import Phase1Topic from '../components/phases/Phase1Topic';
@@ -61,14 +60,13 @@ export default function Game() {
     <div className="game-page">
       {/* トップバー */}
       <header className="game-header">
-        <div className="game-header-left" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          <FaDog size={24} color="var(--clr-primary)" />
-          <span className="logo-text">Only <span className="text-gradient">Wan</span> Word</span>
-        </div>
-        <div className="game-header-center">
+        <div className="game-header-left">
           <span className="game-round-badge badge badge-primary">
             Round {round.roundNumber} / {room.totalRounds}
           </span>
+        </div>
+        <div className="game-header-center">
+          <span className="game-logo-text text-gradient">HINT-LY ONE</span>
         </div>
         <div className="game-header-right">
           <span className="game-score">
@@ -146,9 +144,7 @@ export default function Game() {
       <footer className="game-footer">
         {players.map((p) => (
           <div key={p.id} className={`game-player-chip ${p.isGuesser ? 'guesser' : ''} ${p.id === playerId ? 'me' : ''}`}>
-            <span className="chip-avatar">
-              {p.isGuesser ? <FaPaw size={14} /> : p.name.charAt(0)}
-            </span>
+            <span className="chip-avatar">{p.name.charAt(0)}</span>
             <span className="chip-name">{p.name}</span>
             {p.isGuesser && <span className="chip-role">👁️ 回答者</span>}
             {(round.hints || {})[p.id] && !p.isGuesser && <span className="chip-done">✓</span>}

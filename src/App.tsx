@@ -7,7 +7,6 @@ import Game from './pages/Game';
 function App() {
   return (
     <BrowserRouter>
-      <div className="paw-pattern" />
       <Routes>
         <Route path="/" element={<Lobby />} />
         <Route path="/waiting/:roomId" element={<WaitingRoom />} />
