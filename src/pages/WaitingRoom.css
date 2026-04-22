@@ -1,0 +1,137 @@
+/* WaitingRoom.css */
+.waiting-page {
+  gap: 24px;
+}
+
+.waiting-header {
+  text-align: center;
+}
+
+.waiting-title {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 900;
+  margin-top: 12px;
+}
+
+.waiting-subtitle {
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+
+/* ルームIDカード */
+.room-id-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 28px;
+}
+
+.room-id-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.room-id-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.room-id-text {
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+/* プレイヤーカード */
+.players-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 28px;
+}
+
+.players-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--clr-text-muted);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.players-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  transition: var(--transition);
+}
+
+.player-item:hover {
+  background: var(--clr-surface-hover);
+}
+
+.player-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--grad-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.player-name {
+  flex: 1;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.player-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* 開始ボタン */
+.start-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.start-notice {
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+  background: rgba(255, 224, 108, 0.08);
+  border: 1px solid rgba(255, 224, 108, 0.2);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.waiting-for-host {
+  font-size: 0.95rem;
+}
