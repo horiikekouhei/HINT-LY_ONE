@@ -1,81 +1,100 @@
+.waiting-page {
+  justify-content: center;
+}
+
 .waiting-card {
-  max-width: 480px;
-  padding: 40px;
+  max-width: 500px;
+  text-align: center;
 }
 
 .room-id-display {
-  margin: 24px 0 40px;
+  margin: 32px 0;
   padding: 24px;
-  background: var(--clr-bg2);
-  border-radius: var(--radius);
-  border: 3px dashed var(--clr-border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  border: 1px solid var(--clr-border);
 }
 
 .room-id-label {
-  font-size: 0.85rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  display: block;
+  font-size: 0.8rem;
   color: var(--clr-text-muted);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .room-id-value {
-  font-size: 3.2rem;
-  line-height: 1;
+  font-size: 3rem;
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
-  letter-spacing: 0.3rem;
+  letter-spacing: 0.5rem;
   color: var(--clr-primary);
-  margin-bottom: 16px;
+  display: block;
 }
 
 .player-list-section {
-  width: 100%;
-  margin-bottom: 40px;
+  text-align: left;
+  margin-bottom: 32px;
 }
 
 .section-title {
   font-size: 1.1rem;
-  font-weight: 800;
-  margin-bottom: 20px;
-  color: var(--clr-text);
+  font-weight: 600;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .players-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
 .player-card {
-  height: 56px;
-  padding: 0 20px;
-  border-radius: 100px;
-  border-width: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid transparent;
+}
+
+.player-card.is-me {
+  border-color: var(--clr-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.player-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--grad-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
 }
 
 .player-name {
-  font-size: 1.05rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.host-badge {
+  font-size: 0.7rem;
+  background: var(--clr-yellow);
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
   font-weight: 700;
 }
 
 .waiting-actions {
-  gap: 20px;
-}
-
-.min-players-hint {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--clr-secondary);
-  background: #fff5f5;
-  padding: 8px 20px;
-  border-radius: 100px;
-  border: 2px solid #fed7d7;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 }
