@@ -2,7 +2,33 @@ import { useState, useCallback } from 'react';
 import { ref, set, onValue, update, get } from 'firebase/database';
 import { db } from '../firebase/config';
 import type { Room, Player, Round, Hint, RoundResult } from '../types/game';
-import { TOPIC_LIST } from '../data/topics';
+import { 
+  TOPIC_LIST_JA, 
+  TOPIC_LIST_EN, 
+  TOPIC_LIST_ZH_CN, 
+  TOPIC_LIST_ZH_TW, 
+  TOPIC_LIST_KO, 
+  TOPIC_LIST_ES, 
+  TOPIC_LIST_HI, 
+  TOPIC_LIST_AR, 
+  TOPIC_LIST_FR 
+} from '../data/topics';
+import { Language } from '../i18n/LanguageContext';
+
+// 言語に応じたお題リストを取得するヘルパー
+function getTopicListByLang(lang: Language): string[] {
+  switch (lang) {
+    case 'en': return TOPIC_LIST_EN;
+    case 'zh-CN': return TOPIC_LIST_ZH_CN;
+    case 'zh-TW': return TOPIC_LIST_ZH_TW;
+    case 'ko': return TOPIC_LIST_KO;
+    case 'es': return TOPIC_LIST_ES;
+    case 'hi': return TOPIC_LIST_HI;
+    case 'ar': return TOPIC_LIST_AR;
+    case 'fr': return TOPIC_LIST_FR;
+    default: return TOPIC_LIST_JA;
+  }
+}
 
 // ランダムIDを生成
 export function generateId(length = 6): string {
@@ -36,9 +62,10 @@ function cleanForFirebase(obj: any) {
 // Firebase 操作関数
 // ============================================================
 
-export async function createRoomInFirebase(hostId: string, hostName: string): Promise<Room> {
+export async function createRoomInFirebase(hostId: string, hostName: string, language: Language): Promise<Room> {
   const roomId = generateId(6);
-  const shuffled = [...TOPIC_LIST].sort(() => Math.random() - 0.5);
+  const topicListBase = getTopicListByLang(language);
+  const shuffled = [...topicListBase].sort(() => Math.random() - 0.5);
 
   const host: Player = {
     id: hostId,
@@ -56,6 +83,7 @@ export async function createRoomInFirebase(hostId: string, hostName: string): Pr
     totalRounds: 13,
     topicList: shuffled,
     usedTopics: [],
+    language,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -93,7 +121,8 @@ export async function startRoundInFirebase(room: Room): Promise<void> {
   const roundIndex = usedTopics.length;
   const guesserId = playerIds[roundIndex % playerIds.length];
   
-  const topicList = room.topicList || TOPIC_LIST;
+  const topicListBase = getTopicListByLang(room.language);
+  const topicList = room.topicList || topicListBase;
   const remainingTopics = topicList.filter(t => !usedTopics.includes(t));
   const options = [...remainingTopics].sort(() => Math.random() - 0.5).slice(0, 5);
 
@@ -237,11 +266,11 @@ export function useGameStore() {
     });
   }, []);
 
-  const handleCreateRoom = useCallback(async () => {
+  const handleCreateRoom = useCallback(async (language: Language) => {
     if (!playerName.trim()) { setError('名前を入力してください'); return; }
     setIsLoading(true);
     try {
-      const newRoom = await createRoomInFirebase(playerId, playerName);
+      const newRoom = await createRoomInFirebase(playerId, playerName, language);
       setRoom(newRoom);
       return newRoom;
     } catch (e) {

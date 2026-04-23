@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiUsers, FiCopy, FiPlay, FiCheck } from 'react-icons/fi';
 import { useGameStore } from '../store/gameStore';
+import { useLanguage } from '../i18n/LanguageContext';
 import './WaitingRoom.css';
 
 export default function WaitingRoom() {
@@ -14,6 +15,7 @@ export default function WaitingRoom() {
     subscribeToRoom,
     startRound 
   } = useGameStore();
+  const { t } = useLanguage();
   
   const [copied, setCopied] = useState(false);
 
@@ -61,16 +63,16 @@ export default function WaitingRoom() {
     <div className="page waiting-page">
       {/* ヘッダー */}
       <div className="waiting-header animate-fadeIn">
-        <span className="badge badge-accent">🎮 待機中</span>
-        <h1 className="waiting-title">みんなを待っています...</h1>
+        <span className="badge badge-accent">{t('waiting.waitingTag')}</span>
+        <h1 className="waiting-title">{t('waiting.waitingTitle')}</h1>
         <p className="text-muted waiting-subtitle">
-          このIDを友達に教えて一緒に遊ぼう！
+          {t('waiting.waitingSubtitle')}
         </p>
       </div>
 
       {/* ルームID */}
       <div className="room-id-card card animate-fadeIn delay-1">
-        <p className="room-id-label">ルームID</p>
+        <p className="room-id-label">{t('waiting.roomIdLabel')}</p>
         <div className="room-id-display">
           <span className="room-id-text text-gradient">{room.id}</span>
           <button
@@ -80,7 +82,7 @@ export default function WaitingRoom() {
           >
             <span key={copied ? 'check' : 'copy'} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               {copied ? <FiCheck size={16} /> : <FiCopy size={16} />}
-              {copied ? 'コピー済み' : 'コピー'}
+              {copied ? t('waiting.copied') : t('waiting.copy')}
             </span>
           </button>
         </div>
@@ -90,7 +92,7 @@ export default function WaitingRoom() {
       <div className="players-card card animate-fadeIn delay-2">
         <div className="players-header">
           <FiUsers size={18} />
-          <span>参加者 ({players.length}人)</span>
+          <span>{t('waiting.players', { count: players.length })}</span>
         </div>
         <ul className="players-list">
           {players.map((p, i) => (
@@ -98,8 +100,8 @@ export default function WaitingRoom() {
               <div className="player-avatar">{p.name.charAt(0).toUpperCase()}</div>
               <span className="player-name">{p.name}</span>
               <div className="player-badges">
-                {p.id === playerId && <span className="badge badge-primary">あなた</span>}
-                {p.isHost && <span className="badge badge-gold">👑 ホスト</span>}
+                {p.id === playerId && <span className="badge badge-primary">{t('waiting.you')}</span>}
+                {p.isHost && <span className="badge badge-gold">{t('waiting.host')}</span>}
               </div>
             </li>
           ))}
@@ -110,7 +112,7 @@ export default function WaitingRoom() {
       {isHost && (
         <div className="start-section animate-fadeIn delay-3">
           {!canStart && (
-            <p className="start-notice">あと {2 - players.length} 人以上必要です</p>
+            <p className="start-notice">{t('waiting.needMore', { count: 2 - players.length })}</p>
           )}
           <button
             id="btn-start-game"
@@ -119,14 +121,14 @@ export default function WaitingRoom() {
             disabled={!canStart}
           >
             <FiPlay size={20} />
-            ゲームを開始する
+            {t('waiting.startGame')}
           </button>
         </div>
       )}
 
       {!isHost && (
         <p className="waiting-for-host animate-pulse text-muted">
-          ホストがゲームを開始するのを待っています...
+          {t('waiting.waitingForHost')}
         </p>
       )}
     </div>

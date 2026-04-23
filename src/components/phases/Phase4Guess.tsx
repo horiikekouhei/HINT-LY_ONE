@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FiSend, FiSkipForward } from 'react-icons/fi';
 import type { Room } from '../../types/game';
+import { useLanguage } from '../../i18n/LanguageContext';
 import '../../pages/Game.css';
 
 interface Props {
@@ -14,6 +15,7 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
   const round = room.currentRound!;
   const hintsObj = round.hints || {};
   const validHints = Object.values(hintsObj).filter(h => !h.isEliminated);
+  const { t } = useLanguage();
 
   const handleSubmit = (value: string) => {
     if (!value.trim()) return;
@@ -24,17 +26,17 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
   if (!isGuesser) {
     return (
       <div className="phase-container animate-fadeIn">
-        <span className="phase-tag">Phase 4 — 回答中</span>
+        <span className="phase-tag">{t('game.phase4.tag')}</span>
         <div className="guesser-waiting-card card">
           <div className="guesser-icon animate-pulse">💭</div>
-          <h2 className="phase-title">回答者が考えています…</h2>
-          <p className="phase-desc">送ったヒントで正解できるかな？</p>
+          <h2 className="phase-title" dangerouslySetInnerHTML={{ __html: t('game.phase4.othersTitle') }} />
+          <p className="phase-desc" dangerouslySetInnerHTML={{ __html: t('game.phase4.othersDesc') }} />
           <div className="waiting-hints-preview">
             {validHints.map(h => (
               <span key={h.playerId} className="preview-hint badge badge-primary">{h.text}</span>
             ))}
             {validHints.length === 0 && (
-              <span className="phase-desc">（有効なヒントがありません）</span>
+              <span className="phase-desc">（{t('game.phase4.allEliminated')}）</span>
             )}
           </div>
         </div>
@@ -45,10 +47,9 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
   // 回答者の画面
   return (
     <div className="phase-container animate-fadeIn">
-      <span className="phase-tag">Phase 4 — あなたの番！</span>
-      <h2 className="phase-title">
-        ヒントから <span className="text-gradient">お題を当てよう</span>！
-      </h2>
+      <span className="phase-tag">{t('game.phase4.tag')}</span>
+      <h2 className="phase-title" dangerouslySetInnerHTML={{ __html: t('game.phase4.guesserTitle') }} />
+      <p className="phase-desc" dangerouslySetInnerHTML={{ __html: t('game.phase4.guesserDesc') }} />
 
       {/* ヒント表示 */}
       {validHints.length > 0 ? (
@@ -59,14 +60,14 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
               className={`guess-hint-card card animate-fadeIn delay-${Math.min(i + 1, 5)}`}
             >
               <span className="guess-hint-word text-gradient">{h.text}</span>
-              <span className="guess-hint-from">{h.playerName} より</span>
+              <span className="guess-hint-from">{h.playerName}</span>
             </div>
           ))}
         </div>
       ) : (
         <div className="card no-hints-card">
           <p className="phase-title">😢</p>
-          <p className="phase-desc">有効なヒントがありませんでした…<br />勘で答えるか、パスしましょう！</p>
+          <p className="phase-desc">{t('game.phase4.allEliminated')}</p>
         </div>
       )}
 
@@ -77,7 +78,7 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
             id="guess-input"
             className="input input-lg"
             type="text"
-            placeholder="答えを入力..."
+            placeholder={t('game.phase4.inputPlaceholder')}
             value={guess}
             maxLength={30}
             onChange={e => setGuess(e.target.value)}
@@ -93,7 +94,7 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
             disabled={!guess.trim()}
           >
             <FiSend size={18} />
-            回答する
+            {t('game.phase4.submitBtn')}
           </button>
           <button
             id="btn-pass-guess"
@@ -101,7 +102,7 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
             onClick={() => handleSubmit('__PASS__')}
           >
             <FiSkipForward size={18} />
-            パス
+            {t('game.phase4.passBtn')}
           </button>
         </div>
       </div>

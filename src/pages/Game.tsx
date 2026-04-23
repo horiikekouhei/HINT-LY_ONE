@@ -8,6 +8,7 @@ import Phase3Check from '../components/phases/Phase3Check';
 import Phase4Guess from '../components/phases/Phase4Guess';
 import Phase5Result from '../components/phases/Phase5Result';
 import GameSummary from '../components/phases/GameSummary';
+import { useLanguage } from '../i18n/LanguageContext';
 import './Game.css';
 
 export default function Game() {
@@ -25,6 +26,7 @@ export default function Game() {
     finalizeResult,
     goNextRound 
   } = useGameStore();
+  const { t } = useLanguage();
 
   // Firebase のリアルタイム同期リスナーを張る
   useEffect(() => {
@@ -37,7 +39,6 @@ export default function Game() {
   // ルームが存在しない場合やロビーに戻った場合の処理
   useEffect(() => {
     if (room === null && roomId) {
-      // データのロードが終わった上で null なら、ルームが存在しないか削除された
       // navigate('/');
     }
   }, [room, roomId, navigate]);
@@ -70,7 +71,7 @@ export default function Game() {
         </div>
         <div className="game-header-right">
           <span className="game-score">
-            <span className="score-label">スコア</span>
+            <span className="score-label">{t('game.common.scoreLabel')}</span>
             <span className="score-value text-gradient-gold">{room.score}</span>
           </span>
         </div>
@@ -146,7 +147,7 @@ export default function Game() {
           <div key={p.id} className={`game-player-chip ${p.isGuesser ? 'guesser' : ''} ${p.id === playerId ? 'me' : ''}`}>
             <span className="chip-avatar">{p.name.charAt(0)}</span>
             <span className="chip-name">{p.name}</span>
-            {p.isGuesser && <span className="chip-role">👁️ 回答者</span>}
+            {p.isGuesser && <span className="chip-role">👁️ {t('game.common.guesserRole')}</span>}
             {(round.hints || {})[p.id] && !p.isGuesser && <span className="chip-done">✓</span>}
           </div>
         ))}

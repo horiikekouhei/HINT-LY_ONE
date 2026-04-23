@@ -52,6 +52,7 @@ export interface Room {
   totalRounds: number;
   topicList: string[];
   usedTopics: string[];
+  language: 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'es' | 'hi' | 'ar' | 'fr'; // 部屋の言語
   createdAt: number;
   updatedAt: number; // 最終更新日時
 }

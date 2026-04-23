@@ -1,5 +1,6 @@
 import { FiCheck, FiX } from 'react-icons/fi';
 import type { Room } from '../../types/game';
+import { useLanguage } from '../../i18n/LanguageContext';
 import '../../pages/Game.css';
 
 interface Props {
@@ -16,17 +17,16 @@ export default function Phase3Check({ room, playerId, isGuesser, onToggleElimina
   const hintsObj = round.hints || {};
   const hints = Object.values(hintsObj);
   const validCount = hints.filter(h => !h.isEliminated).length;
+  const { t } = useLanguage();
 
   if (isGuesser) {
     return (
       <div className="phase-container animate-fadeIn">
-        <span className="phase-tag">Phase 3 — 重複チェック中</span>
+        <span className="phase-tag">{t('game.phase3.tagChecking')}</span>
         <div className="guesser-waiting-card card">
           <div className="guesser-icon animate-pulse">🔍</div>
-          <h2 className="phase-title">チェック中…</h2>
-          <p className="phase-desc">
-            他のプレイヤーが重複するヒントを<br />取り除いています。もう少し！
-          </p>
+          <h2 className="phase-title">{t('game.phase3.guesserTitle')}</h2>
+          <p className="phase-desc" dangerouslySetInnerHTML={{ __html: t('game.phase3.guesserDesc') }} />
         </div>
       </div>
     );
@@ -41,14 +41,9 @@ export default function Phase3Check({ room, playerId, isGuesser, onToggleElimina
 
   return (
     <div className="phase-container animate-fadeIn">
-      <span className="phase-tag">Phase 3 — 重複チェック</span>
-      <h2 className="phase-title">
-        重複している<span className="text-gradient"> ヒントを消そう</span>
-      </h2>
-      <p className="phase-desc">
-        同じ・似た意味のヒントをタップして消してください。<br />
-        残ったヒントが回答者に見えます。
-      </p>
+      <span className="phase-tag">{t('game.phase3.tag')}</span>
+      <h2 className="phase-title" dangerouslySetInnerHTML={{ __html: t('game.phase3.checkTitle') }} />
+      <p className="phase-desc" dangerouslySetInnerHTML={{ __html: t('game.phase3.checkDesc') }} />
 
       <div className="check-hints-grid">
         {hints.map((hint, i) => (
@@ -62,7 +57,7 @@ export default function Phase3Check({ room, playerId, isGuesser, onToggleElimina
             <span className="hint-check-name">{hint.playerName}</span>
             <div className="hint-check-overlay">
               <FiX size={32} />
-              <span>消去済み</span>
+              <span>{t('game.phase3.eliminated')}</span>
             </div>
           </button>
         ))}
@@ -70,7 +65,7 @@ export default function Phase3Check({ room, playerId, isGuesser, onToggleElimina
 
       <div className="check-summary">
         <span className="check-valid-count">
-          残り <strong className="text-gradient-accent">{validCount}</strong> 個のヒントが回答者に届きます
+          {t('game.phase3.valid')}: <strong className="text-gradient-accent">{validCount}</strong>
         </span>
       </div>
 
@@ -81,10 +76,10 @@ export default function Phase3Check({ room, playerId, isGuesser, onToggleElimina
           onClick={onConfirm}
         >
           <FiCheck size={20} />
-          これで確定する
+          {t('game.phase3.confirmBtn')}
         </button>
       ) : (
-        <p className="phase-desc animate-pulse">進行役が確定するのを待っています…</p>
+        <p className="phase-desc animate-pulse">{t('game.phase2.waitingOthers')}</p>
       )}
     </div>
   );

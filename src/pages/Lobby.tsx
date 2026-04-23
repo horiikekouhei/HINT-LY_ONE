@@ -1,30 +1,60 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUser, FiPlusCircle, FiLogIn, FiHash } from 'react-icons/fi';
+import { FiUser, FiPlusCircle, FiLogIn, FiHash, FiGlobe } from 'react-icons/fi';
 import { useGameStore } from '../store/gameStore';
+import { useLanguage } from '../i18n/LanguageContext';
 import './Lobby.css';
 
 export default function Lobby() {
   const navigate = useNavigate();
   const { playerName, savePlayerName, error, setError, handleCreateRoom, handleJoinRoom, isLoading } = useGameStore();
+  const { language, setLanguage, t } = useLanguage();
   const [joinCode, setJoinCode] = useState('');
   const [mode, setMode] = useState<'select' | 'create' | 'join'>('select');
 
   const onCreate = async () => {
-    if (!playerName.trim()) { setError('名前を入力してください'); return; }
-    const room = await handleCreateRoom();
+    if (!playerName.trim()) { setError(t('lobby.errors.enterName')); return; }
+    const room = await handleCreateRoom(language);
     if (room) navigate(`/waiting/${room.id}`);
   };
 
   const onJoin = async () => {
-    if (!playerName.trim()) { setError('名前を入力してください'); return; }
-    if (!joinCode.trim()) { setError('ルームIDを入力してください'); return; }
+    if (!playerName.trim()) { setError(t('lobby.errors.enterName')); return; }
+    if (!joinCode.trim()) { setError(t('lobby.errors.enterRoomId')); return; }
     const room = await handleJoinRoom(joinCode);
     if (room) navigate(`/waiting/${room.id}`);
   };
 
+  const langNames: Record<string, string> = {
+    ja: '日本語', en: 'English', 'zh-CN': '简体中文', 'zh-TW': '繁體中文',
+    ko: '한국어', es: 'Español', hi: 'हिन्दी', ar: 'العربية', fr: 'Français'
+  };
+
   return (
     <div className="page lobby-page">
+      {/* 言語切り替え */}
+      <div style={{ position: 'absolute', top: 16, right: 16, display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <FiGlobe size={16} style={{ position: 'absolute', left: '10px', pointerEvents: 'none', color: 'var(--text-muted)' }} />
+          <select 
+            className="btn btn-secondary btn-sm" 
+            style={{ paddingLeft: '32px', appearance: 'none', cursor: 'pointer' }}
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as any)}
+          >
+            <option value="ja">日本語</option>
+            <option value="en">English</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="ko">한국어</option>
+            <option value="es">Español</option>
+            <option value="hi">हिन्दी</option>
+            <option value="ar">العربية</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+      </div>
+
       {/* タイトルロゴ */}
       <div className="lobby-logo animate-fadeIn">
         <div className="logo-gem animate-float">💎</div>
@@ -32,7 +62,7 @@ export default function Lobby() {
           <span className="text-gradient">HINT-LY</span>
           <span className="logo-one">ONE</span>
         </h1>
-        <p className="logo-subtitle">みんなで遊ぶ、ワードヒントゲーム</p>
+        <p className="logo-subtitle">{t('lobby.subtitle')}</p>
       </div>
 
       {/* カード */}
@@ -41,13 +71,13 @@ export default function Lobby() {
         <div className="field-group">
           <label className="field-label">
             <FiUser size={15} />
-            あなたの名前
+            {t('lobby.yourName')}
           </label>
           <input
             id="player-name"
             className="input"
             type="text"
-            placeholder="ニックネームを入力..."
+            placeholder={t('lobby.namePlaceholder')}
             value={playerName}
             maxLength={16}
             onChange={(e) => { savePlayerName(e.target.value); setError(null); }}
@@ -61,11 +91,11 @@ export default function Lobby() {
           <div className="action-group animate-fadeInScale">
             <button id="btn-create-room" className="btn btn-primary btn-lg btn-full" onClick={() => setMode('create')}>
               <FiPlusCircle size={20} />
-              新しく部屋を作る
+              {t('lobby.createRoom')}
             </button>
             <button id="btn-join-room" className="btn btn-secondary btn-lg btn-full" onClick={() => setMode('join')}>
               <FiLogIn size={20} />
-              部屋に参加する
+              {t('lobby.joinRoom')}
             </button>
           </div>
         )}
@@ -73,6 +103,9 @@ export default function Lobby() {
         {/* 部屋作成 */}
         {mode === 'create' && (
           <div className="action-group animate-fadeInScale">
+            <p className="text-muted" style={{ textAlign: 'center', fontSize: '0.9rem', marginBottom: '8px' }}>
+              {t('lobby.roomLanguage')}: {langNames[language]}
+            </p>
             <button
               id="btn-confirm-create"
               className="btn btn-primary btn-lg btn-full"
@@ -80,10 +113,10 @@ export default function Lobby() {
               disabled={isLoading}
             >
               <FiPlusCircle size={20} />
-              {isLoading ? '作成中...' : '部屋を作成する'}
+              {isLoading ? t('lobby.creating') : t('lobby.createConfirm')}
             </button>
             <button className="btn btn-secondary btn-full" onClick={() => setMode('select')}>
-              戻る
+              {t('lobby.back')}
             </button>
           </div>
         )}
@@ -93,13 +126,13 @@ export default function Lobby() {
           <div className="action-group animate-fadeInScale">
             <label className="field-label">
               <FiHash size={15} />
-              ルームID
+              {t('lobby.roomId')}
             </label>
             <input
               id="join-code-input"
               className="input input-lg"
               type="text"
-              placeholder="例: AB3X9Z"
+              placeholder={t('lobby.roomIdPlaceholder')}
               value={joinCode}
               maxLength={8}
               onChange={(e) => { setJoinCode(e.target.value.toUpperCase()); setError(null); }}
@@ -111,10 +144,10 @@ export default function Lobby() {
               disabled={isLoading}
             >
               <FiLogIn size={20} />
-              {isLoading ? '参加中...' : '参加する'}
+              {isLoading ? t('lobby.joining') : t('lobby.joinConfirm')}
             </button>
             <button className="btn btn-secondary btn-full" onClick={() => setMode('select')}>
-              戻る
+              {t('lobby.back')}
             </button>
           </div>
         )}
@@ -122,12 +155,12 @@ export default function Lobby() {
 
       {/* ルール説明 */}
       <div className="lobby-rules animate-fadeIn delay-4">
-        <p className="rules-title">🎯 遊び方</p>
+        <p className="rules-title">{t('lobby.howToPlay')}</p>
         <ol className="rules-list">
-          <li>1人が「回答者」になりお題を当てる</li>
-          <li>他のプレイヤーは1単語ずつヒントを出す</li>
-          <li>同じヒントは消えてしまう！</li>
-          <li>残ったヒントだけで正解を導こう</li>
+          <li>{t('lobby.rule1')}</li>
+          <li>{t('lobby.rule2')}</li>
+          <li>{t('lobby.rule3')}</li>
+          <li>{t('lobby.rule4')}</li>
         </ol>
       </div>
     </div>
