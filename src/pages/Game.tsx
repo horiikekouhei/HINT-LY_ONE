@@ -62,10 +62,10 @@ export default function Game() {
     const currentPlayers = Object.keys(room.players || {}).sort();
     const missingActivePlayers = activeIds.filter(id => !currentPlayers.includes(id));
 
-    if (missingActivePlayers.length > 0 && abortedRoundNumberRef.current !== room.currentRound.roundNumber) {
+    if (missingActivePlayers.length > 0 && abortedRoundNumberRef.current !== room.currentRound?.roundNumber) {
       const controller = currentPlayers.includes(room.hostId) ? room.hostId : currentPlayers[0];
       if (playerId === controller) {
-        abortedRoundNumberRef.current = room.currentRound.roundNumber;
+        abortedRoundNumberRef.current = room.currentRound?.roundNumber || -1;
         if (abortRound) abortRound();
       }
     }
