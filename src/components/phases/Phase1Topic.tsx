@@ -7,7 +7,6 @@ interface Props {
   room: Room;
   playerId: string;
   isGuesser: boolean;
-  isHost: boolean;
   onSelect: (topic: string) => void;
 }
 

@@ -6,14 +6,12 @@ import '../../pages/Game.css';
 interface Props {
   room: Room;
   playerId: string;
-  isHost: boolean;
-  totalHints: number;
   onFinalize: (result: RoundResult) => void;
   onNext: () => void;
   onEndFreeMode: () => void;
 }
 
-export default function Phase5Result({ room, playerId, isHost, totalHints, onFinalize, onNext, onEndFreeMode }: Props) {
+export default function Phase5Result({ room, playerId, onFinalize, onNext, onEndFreeMode }: Props) {
   const round = room.currentRound!;
   const players = room.players || {};
   const hintsObj = round.hints || {};

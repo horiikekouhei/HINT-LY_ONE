@@ -7,7 +7,6 @@ interface Props {
   room: Room;
   playerId: string;
   isGuesser: boolean;
-  isHost: boolean;
   onToggleEliminate: (targetPlayerId: string) => void;
   onConfirm: () => void;
 }

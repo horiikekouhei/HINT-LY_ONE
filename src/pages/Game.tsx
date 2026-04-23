@@ -108,7 +108,6 @@ export default function Game() {
             room={room}
             playerId={playerId}
             isGuesser={isGuesser}
-            isHost={isHost}
             onSelect={(topic) => selectTopic && selectTopic(topic)}
           />
         )}
@@ -126,7 +125,6 @@ export default function Game() {
             room={room}
             playerId={playerId}
             isGuesser={isGuesser}
-            isHost={isHost}
             onToggleEliminate={(id) => toggleEliminate && toggleEliminate(id)}
             onConfirm={() => confirmCheck && confirmCheck()}
           />
@@ -142,8 +140,6 @@ export default function Game() {
           <Phase5Result
             room={room}
             playerId={playerId}
-            isHost={isHost}
-            totalHints={totalHints}
             onFinalize={(result: RoundResult) => finalizeResult && finalizeResult(result)}
             onNext={() => goNextRound && goNextRound()}
             onEndFreeMode={() => endFreeMode && endFreeMode()}
