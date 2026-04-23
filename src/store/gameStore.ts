@@ -116,7 +116,7 @@ export async function joinRoomInFirebase(roomId: string, playerId: string, playe
 
 export async function startRoundInFirebase(room: Room): Promise<void> {
   const players = room.players || {};
-  const playerIds = Object.keys(players);
+  const playerIds = Object.keys(players).sort();
   const usedTopics = room.usedTopics || [];
   const roundIndex = usedTopics.length;
   const guesserId = playerIds[roundIndex % playerIds.length];

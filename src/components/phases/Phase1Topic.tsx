@@ -19,8 +19,8 @@ export default function Phase1Topic({ room, playerId, isGuesser, onSelect }: Pro
   // 進行役の判定：ホスト、またはホストが回答者の場合は回答者以外の誰か
   const players = room.players || {};
   const playerIds = Object.keys(players).sort();
-  const activeNonGuessers = playerIds.filter(id => id !== round.guesserId);
-  const controllerId = room.hostId !== round.guesserId ? room.hostId : activeNonGuessers[0];
+  const guesserIndex = playerIds.indexOf(round.guesserId);
+  const controllerId = playerIds[(guesserIndex + 1) % playerIds.length];
   const isController = playerId === controllerId;
 
   if (isGuesser) {
