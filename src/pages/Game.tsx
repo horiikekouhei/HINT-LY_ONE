@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGameStore } from '../store/gameStore';
 import type { RoundResult } from '../types/game';
@@ -48,9 +48,14 @@ export default function Game() {
     }
   }, [room, playerId, navigate]);
 
+  const isAbortingRef = useRef(false);
+
   // 誰かアクティブプレイヤーが抜けた場合（切断など）、ホスト（または代わりの進行役）がラウンドをスキップする
   useEffect(() => {
-    if (!room || room.phase === 'waiting' || room.phase === 'summary' || room.phase === 'phase5_result') return;
+    if (!room || room.phase === 'waiting' || room.phase === 'summary' || room.phase === 'phase5_result') {
+      isAbortingRef.current = false;
+      return;
+    }
     
     const activeIds = room.currentRound?.activePlayerIds;
     if (!activeIds) return;
@@ -58,9 +63,10 @@ export default function Game() {
     const currentPlayers = Object.keys(room.players || {});
     const missingActivePlayers = activeIds.filter(id => !currentPlayers.includes(id));
 
-    if (missingActivePlayers.length > 0) {
+    if (missingActivePlayers.length > 0 && !isAbortingRef.current) {
       const controller = currentPlayers.includes(room.hostId) ? room.hostId : currentPlayers[0];
       if (playerId === controller) {
+        isAbortingRef.current = true;
         if (abortRound) abortRound();
       }
     }
