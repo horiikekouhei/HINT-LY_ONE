@@ -58,7 +58,6 @@ export default function Game() {
   const isGuesser = round.guesserId === playerId;
   const isHost = room.hostId === playerId;
   const players = Object.values(room.players || {});
-  const totalHints = Object.values(round.hints || {}).filter(h => !h.isEliminated).length;
 
   return (
     <div className="game-page">

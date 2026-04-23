@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUser, FiPlusCircle, FiLogIn, FiHash, FiGlobe } from 'react-icons/fi';
+import { FiUser, FiPlusCircle, FiLogIn, FiGlobe } from 'react-icons/fi';
 import { useGameStore } from '../store/gameStore';
 import { useLanguage } from '../i18n/LanguageContext';
 import './Lobby.css';
