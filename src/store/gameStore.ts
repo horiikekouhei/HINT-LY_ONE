@@ -13,7 +13,7 @@ import {
   TOPIC_LIST_AR, 
   TOPIC_LIST_FR 
 } from '../data/topics';
-import { Language } from '../i18n/LanguageContext';
+import type { Language } from '../i18n/LanguageContext';
 
 // 言語に応じたお題リストを取得するヘルパー
 function getTopicListByLang(lang: Language): string[] {
