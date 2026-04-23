@@ -79,10 +79,13 @@ export default function GameSummary({ room, onFinish }: Props) {
                   </div>
                   <div className="history-hints">
                     {Object.values(r.hints || {}).map(h => (
-                      <span key={h.playerId} className={`history-hint-chip ${h.isEliminated ? 'eliminated' : ''}`}>
-                        {h.isEliminated && <FiX size={10} />}
-                        {h.text}
-                      </span>
+                      <div key={h.playerId} className={`history-hint-chip ${h.isEliminated ? 'eliminated' : ''}`}>
+                        <span className="history-hint-name">{h.playerName}</span>
+                        <span className="history-hint-text">
+                          {h.isEliminated && <FiX size={10} />}
+                          {h.text}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 </div>
