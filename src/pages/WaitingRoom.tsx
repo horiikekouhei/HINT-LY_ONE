@@ -14,7 +14,8 @@ export default function WaitingRoom() {
     error, 
     subscribeToRoom,
     startRound,
-    kickPlayer
+    kickPlayer,
+    leaveRoom
   } = useGameStore();
   const { t } = useLanguage();
   
@@ -146,7 +147,13 @@ export default function WaitingRoom() {
 
       {/* 退出ボタン */}
       <div style={{ marginTop: '24px', textAlign: 'center' }}>
-        <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={async () => {
+            if (leaveRoom) await leaveRoom();
+            navigate('/');
+          }}
+        >
           {t('game.common.leave')}
         </button>
       </div>
