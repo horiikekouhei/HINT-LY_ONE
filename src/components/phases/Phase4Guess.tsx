@@ -31,9 +31,15 @@ export default function Phase4Guess({ room, isGuesser, onSubmit }: Props) {
           <div className="guesser-icon animate-pulse">💭</div>
           <h2 className="phase-title" dangerouslySetInnerHTML={{ __html: t('game.phase4.othersTitle') }} />
           <p className="phase-desc" dangerouslySetInnerHTML={{ __html: t('game.phase4.othersDesc') }} />
-          <div className="waiting-hints-preview">
-            {validHints.map(h => (
-              <span key={h.playerId} className="preview-hint badge badge-primary">{h.text}</span>
+          <div className="guess-hints-grid" style={{ marginTop: '12px' }}>
+            {validHints.map((h, i) => (
+              <div
+                key={h.playerId}
+                className={`guess-hint-card card animate-fadeIn delay-${Math.min(i + 1, 5)}`}
+              >
+                <span className="guess-hint-word text-gradient">{h.text}</span>
+                <span className="guess-hint-from">{h.playerName}</span>
+              </div>
             ))}
             {validHints.length === 0 && (
               <span className="phase-desc">（{t('game.phase4.allEliminated')}）</span>
