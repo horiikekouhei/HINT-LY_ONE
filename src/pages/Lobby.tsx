@@ -113,12 +113,12 @@ export default function Lobby() {
             {/* ラウンド数選択 */}
             <div className="field-group">
               <label className="field-label">{t('lobby.roundCount')}</label>
-              <div className="round-selector" style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+              <div className="round-selector" style={{ display: 'flex', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
                 {[5, 13, 20].map(n => (
                   <button 
                     key={n}
                     className={`btn btn-sm ${totalRounds === n && !isFreeMode ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ flex: 1 }}
+                    style={{ flex: '1 1 60px', minWidth: '60px' }}
                     onClick={() => { setTotalRounds(n); setIsFreeMode(false); }}
                   >
                     {n}
@@ -126,7 +126,7 @@ export default function Lobby() {
                 ))}
                 <button 
                   className={`btn btn-sm ${isFreeMode ? 'btn-accent' : 'btn-secondary'}`}
-                  style={{ flex: 1 }}
+                  style={{ flex: '2 1 100px', minWidth: '100px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
                   onClick={() => setIsFreeMode(!isFreeMode)}
                 >
                   ∞ {t('lobby.freeMode')}

@@ -237,11 +237,15 @@ export async function confirmCheckInFirebase(room: Room): Promise<void> {
 }
 
 export async function submitGuessInFirebase(room: Room, guess: string): Promise<void> {
+  const isPass = guess.trim() === '__PASS__';
   const updates: any = {
     [`rooms/${room.id}/currentRound/guess`]: guess.trim(),
     [`rooms/${room.id}/phase`]: 'phase5_result',
     [`rooms/${room.id}/updatedAt`]: Date.now(),
   };
+  if (isPass) {
+    updates[`rooms/${room.id}/currentRound/result`] = 'pass';
+  }
   await update(ref(db), updates);
 }
 
