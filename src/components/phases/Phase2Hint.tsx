@@ -9,9 +9,10 @@ interface Props {
   playerId: string;
   isGuesser: boolean;
   onSubmit: (hint: string) => void;
+  onUndo: () => void;
 }
 
-export default function Phase2Hint({ room, playerId, isGuesser, onSubmit }: Props) {
+export default function Phase2Hint({ room, playerId, isGuesser, onSubmit, onUndo }: Props) {
   const [hint, setHint] = useState('');
   const round = room.currentRound!;
   const hints = round.hints || {};
@@ -68,7 +69,13 @@ export default function Phase2Hint({ room, playerId, isGuesser, onSubmit }: Prop
             <span className="submitted-hint-label">{t('game.phase2.yourHint')}</span>
             <span className="submitted-hint-word text-gradient">{myHint.text}</span>
           </div>
-          <p className="phase-desc">{t('game.phase2.waitingOthers')}</p>
+          <div className="action-group" style={{ marginTop: '16px' }}>
+            <button className="btn btn-secondary btn-sm" onClick={() => { setHint(myHint.text); onUndo(); }}>
+              <FiEdit3 size={14} />
+              {t('game.phase2.rewriteBtn')}
+            </button>
+          </div>
+          <p className="phase-desc" style={{ marginTop: '16px' }}>{t('game.phase2.waitingOthers')}</p>
           <div className="hint-progress">
             <div className="hint-progress-track">
               {nonGuessers.map(p => (

@@ -25,6 +25,9 @@ export const ja = {
       joinFailed: "参加に失敗しました",
     },
     roomLanguage: "部屋の言語",
+    roundCount: "ラウンド数",
+    freeMode: "フリーモード (無限)",
+    freeModeDesc: "いつでも終了でき、途中参加も可能です",
   },
   waiting: {
     waitingTag: "🎮 待機中",
@@ -36,9 +39,13 @@ export const ja = {
     players: "参加者 ({{count}}人)",
     you: "あなた",
     host: "👑 ホスト",
+    kick: "追放",
+    kickConfirm: "このプレイヤーを追放しますか？",
     needMore: "あと {{count}} 人以上必要です",
     startGame: "ゲームを開始する",
     waitingForHost: "ホストがゲームを開始するのを待っています...",
+    kickedTitle: "退出しました",
+    kickedDesc: "ホストによって部屋から削除されました。",
   },
   game: {
     phase1: {
@@ -66,6 +73,7 @@ export const ja = {
       inputPlaceholder: "ヒントを入力...",
       warnOneWord: "⚠️ 1単語のみ入力できます",
       submitBtn: "ヒントを送る",
+      rewriteBtn: "書き直す",
     },
     phase3: {
       tag: "Phase 3 — 重複チェック",
@@ -95,7 +103,7 @@ export const ja = {
       incorrect: "💦 不正解...",
       pass: "⏭ パス",
       correctDesc: "お見事！ポイント獲得です。",
-      incorrectDesc: "残念... 次は当てましょう！",
+      incorrectDesc: "残念... 次は当てましょう！(点数が減ります)",
       passDesc: "パスしました。次のラウンドへ進みます。",
       answerWas: "正解は",
       guesserWas: "回答者:",
@@ -103,12 +111,14 @@ export const ja = {
       eliminated: "(重複/無効)",
       nextRoundBtn: "次のラウンドへ",
       viewResultBtn: "最終結果を見る",
+      endFreeModeBtn: "ゲームを終了する",
     },
     summary: {
       title: "ゲーム終了！",
       scoreTitle: "最終スコア",
       scorePoints: "点",
-      maxScore: "満点中",
+      maxScore: "合計",
+      historyTitle: "📝 プレイ履歴",
       evaluation: {
         perfect: "🏆 伝説のチーム！完璧です！",
         great: "🌟 素晴らしいチームワーク！",
@@ -121,6 +131,8 @@ export const ja = {
     common: {
       scoreLabel: "スコア",
       guesserRole: "回答者",
+      endGame: "終了",
+      leave: "退出",
     }
   }
 };

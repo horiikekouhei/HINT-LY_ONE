@@ -20,11 +20,14 @@ export default function Game() {
     subscribeToRoom,
     selectTopic,
     submitHint,
+    undoSubmitHint,
     toggleEliminate,
     confirmCheck,
     submitGuess,
     finalizeResult,
-    goNextRound 
+    goNextRound,
+    kickPlayer,
+    endFreeMode
   } = useGameStore();
   const { t } = useLanguage();
 
@@ -36,12 +39,12 @@ export default function Game() {
     }
   }, [roomId, subscribeToRoom]);
 
-  // ルームが存在しない場合やロビーに戻った場合の処理
+  // 自身が部屋からいなくなった場合（キックされた場合）
   useEffect(() => {
-    if (room === null && roomId) {
-      // navigate('/');
+    if (room && !room.players[playerId]) {
+      navigate('/');
     }
-  }, [room, roomId, navigate]);
+  }, [room, playerId, navigate]);
 
   if (!room || !room.currentRound) {
     return (
@@ -63,11 +66,20 @@ export default function Game() {
       <header className="game-header">
         <div className="game-header-left">
           <span className="game-round-badge badge badge-primary">
-            Round {round.roundNumber} / {room.totalRounds}
+            {room.isFreeMode ? 'Free Mode' : `Round ${round.roundNumber} / ${room.totalRounds}`}
           </span>
         </div>
         <div className="game-header-center">
           <span className="game-logo-text text-gradient notranslate" translate="no">HINT-LY ONE</span>
+          {room.isFreeMode && isHost && (
+            <button 
+              className="btn btn-secondary btn-xs" 
+              style={{ marginLeft: '12px', fontSize: '0.7rem' }}
+              onClick={() => window.confirm(t('game.phase5.endFreeModeBtn')) && endFreeMode && endFreeMode()}
+            >
+              {t('game.common.endGame')}
+            </button>
+          )}
         </div>
         <div className="game-header-right">
           <span className="game-score">
@@ -78,14 +90,16 @@ export default function Game() {
       </header>
 
       {/* プログレスバー */}
-      <div className="game-progress-wrap">
-        <div className="progress-bar">
-          <div
-            className="progress-bar-fill"
-            style={{ width: `${((room.usedTopics || []).length / room.totalRounds) * 100}%` }}
-          />
+      {!room.isFreeMode && (
+        <div className="game-progress-wrap">
+          <div className="progress-bar">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${((room.usedTopics || []).length / room.totalRounds) * 100}%` }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* フェーズコンポーネント */}
       <main className="game-main">
@@ -104,6 +118,7 @@ export default function Game() {
             playerId={playerId}
             isGuesser={isGuesser}
             onSubmit={(hint) => submitHint && submitHint(hint)}
+            onUndo={() => undoSubmitHint && undoSubmitHint()}
           />
         )}
         {room.phase === 'phase3_check' && (
@@ -131,6 +146,7 @@ export default function Game() {
             totalHints={totalHints}
             onFinalize={(result: RoundResult) => finalizeResult && finalizeResult(result)}
             onNext={() => goNextRound && goNextRound()}
+            onEndFreeMode={() => endFreeMode && endFreeMode()}
           />
         )}
         {room.phase === 'summary' && (
@@ -149,8 +165,23 @@ export default function Game() {
             <span className="chip-name">{p.name}</span>
             {p.isGuesser && <span className="chip-role">👁️ {t('game.common.guesserRole')}</span>}
             {(round.hints || {})[p.id] && !p.isGuesser && <span className="chip-done">✓</span>}
+            {isHost && p.id !== playerId && (
+              <button 
+                className="chip-kick" 
+                onClick={() => window.confirm(t('waiting.kickConfirm')) && kickPlayer && kickPlayer(p.id)}
+              >
+                ✕
+              </button>
+            )}
           </div>
         ))}
+        <button 
+          className="game-player-chip btn-leave" 
+          onClick={() => navigate('/')}
+          style={{ cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}
+        >
+          🚪 {t('game.common.leave')}
+        </button>
       </footer>
     </div>
   );

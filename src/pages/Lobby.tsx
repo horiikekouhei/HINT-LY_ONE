@@ -12,9 +12,12 @@ export default function Lobby() {
   const [joinCode, setJoinCode] = useState('');
   const [mode, setMode] = useState<'select' | 'create' | 'join'>('select');
 
+  const [totalRounds, setTotalRounds] = useState(13);
+  const [isFreeMode, setIsFreeMode] = useState(false);
+
   const onCreate = async () => {
     if (!playerName.trim()) { setError(t('lobby.errors.enterName')); return; }
-    const room = await handleCreateRoom(language);
+    const room = await handleCreateRoom(language, totalRounds, isFreeMode);
     if (room) navigate(`/waiting/${room.id}`);
   };
 
@@ -106,6 +109,32 @@ export default function Lobby() {
             <p className="text-muted" style={{ textAlign: 'center', fontSize: '0.9rem', marginBottom: '8px' }}>
               {t('lobby.roomLanguage')}: {langNames[language]}
             </p>
+            
+            {/* ラウンド数選択 */}
+            <div className="field-group">
+              <label className="field-label">{t('lobby.roundCount')}</label>
+              <div className="round-selector" style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                {[5, 13, 20].map(n => (
+                  <button 
+                    key={n}
+                    className={`btn btn-sm ${totalRounds === n && !isFreeMode ? 'btn-primary' : 'btn-secondary'}`}
+                    style={{ flex: 1 }}
+                    onClick={() => { setTotalRounds(n); setIsFreeMode(false); }}
+                  >
+                    {n}
+                  </button>
+                ))}
+                <button 
+                  className={`btn btn-sm ${isFreeMode ? 'btn-accent' : 'btn-secondary'}`}
+                  style={{ flex: 1 }}
+                  onClick={() => setIsFreeMode(!isFreeMode)}
+                >
+                  ∞ {t('lobby.freeMode')}
+                </button>
+              </div>
+              {isFreeMode && <p className="help-text" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{t('lobby.freeModeDesc')}</p>}
+            </div>
+
             <button
               id="btn-confirm-create"
               className="btn btn-primary btn-lg btn-full"

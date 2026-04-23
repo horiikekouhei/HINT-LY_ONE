@@ -10,9 +10,10 @@ interface Props {
   totalHints: number;
   onFinalize: (result: RoundResult) => void;
   onNext: () => void;
+  onEndFreeMode: () => void;
 }
 
-export default function Phase5Result({ room, playerId, onFinalize, onNext }: Props) {
+export default function Phase5Result({ room, playerId, isHost, totalHints, onFinalize, onNext, onEndFreeMode }: Props) {
   const round = room.currentRound!;
   const players = room.players || {};
   const hintsObj = round.hints || {};
@@ -30,7 +31,7 @@ export default function Phase5Result({ room, playerId, onFinalize, onNext }: Pro
   const isPass = round.guess === '__PASS__';
   const hasResult = !!round.result;
   const usedTopics = room.usedTopics || [];
-  const isLastRound = usedTopics.length >= room.totalRounds;
+  const isLastRound = !room.isFreeMode && usedTopics.length >= room.totalRounds;
 
   const resultConfig = {
     correct:   { emoji: '🎉', label: t('game.phase5.correct'),   color: '#6cffa0', grad: 'var(--grad-accent)' },
@@ -126,14 +127,26 @@ export default function Phase5Result({ room, playerId, onFinalize, onNext }: Pro
           </div>
 
           {isController && (
-            <button
-              id="btn-next-round"
-              className="btn btn-primary btn-lg"
-              onClick={onNext}
-            >
-              <FiArrowRight size={20} />
-              {isLastRound ? t('game.phase5.viewResultBtn') : t('game.phase5.nextRoundBtn')}
-            </button>
+            <div className="action-group" style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '300px', margin: '0 auto' }}>
+              <button
+                id="btn-next-round"
+                className="btn btn-primary btn-lg btn-full"
+                onClick={onNext}
+              >
+                <FiArrowRight size={20} />
+                {isLastRound ? t('game.phase5.viewResultBtn') : t('game.phase5.nextRoundBtn')}
+              </button>
+
+              {room.isFreeMode && (
+                <button
+                  id="btn-end-free-mode"
+                  className="btn btn-secondary btn-full"
+                  onClick={() => window.confirm(t('game.phase5.endFreeModeBtn')) && onEndFreeMode()}
+                >
+                  {t('game.phase5.endFreeModeBtn')}
+                </button>
+              )}
+            </div>
           )}
           {!isController && (
             <p className="phase-desc animate-pulse">{t('game.phase2.waitingOthers')}</p>

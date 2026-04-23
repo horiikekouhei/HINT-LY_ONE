@@ -49,6 +49,7 @@ export function getOrCreatePlayerId(): string {
 
 // Firebase 向けにオブジェクトをクリーンアップ（undefined を削除）
 function cleanForFirebase(obj: any) {
+  if (!obj) return obj;
   const newObj = { ...obj };
   Object.keys(newObj).forEach(key => {
     if (newObj[key] === undefined) {
@@ -62,7 +63,13 @@ function cleanForFirebase(obj: any) {
 // Firebase 操作関数
 // ============================================================
 
-export async function createRoomInFirebase(hostId: string, hostName: string, language: Language): Promise<Room> {
+export async function createRoomInFirebase(
+  hostId: string, 
+  hostName: string, 
+  language: Language,
+  totalRounds: number = 13,
+  isFreeMode: boolean = false
+): Promise<Room> {
   const roomId = generateId(6);
   const topicListBase = getTopicListByLang(language);
   const shuffled = [...topicListBase].sort(() => Math.random() - 0.5);
@@ -80,9 +87,11 @@ export async function createRoomInFirebase(hostId: string, hostName: string, lan
     phase: 'waiting',
     players: { [hostId]: host },
     score: 0,
-    totalRounds: 13,
+    totalRounds,
+    isFreeMode,
     topicList: shuffled,
     usedTopics: [],
+    history: [],
     language,
     createdAt: Date.now(),
     updatedAt: Date.now(),
@@ -98,7 +107,9 @@ export async function joinRoomInFirebase(roomId: string, playerId: string, playe
   
   if (!snapshot.exists()) return false;
   const room = snapshot.val() as Room;
-  if (room.phase !== 'waiting') return false;
+  
+  // 待機中、またはフリーモード中なら参加可能
+  if (room.phase !== 'waiting' && !room.isFreeMode) return false;
 
   const player: Player = {
     id: playerId,
@@ -114,12 +125,27 @@ export async function joinRoomInFirebase(roomId: string, playerId: string, playe
   return true;
 }
 
+export async function kickPlayerInFirebase(roomId: string, targetId: string): Promise<void> {
+  await set(ref(db, `rooms/${roomId}/players/${targetId}`), null);
+  await update(ref(db, `rooms/${roomId}`), { updatedAt: Date.now() });
+}
+
+export async function leaveRoomInFirebase(roomId: string, playerId: string): Promise<void> {
+  await set(ref(db, `rooms/${roomId}/players/${playerId}`), null);
+  await update(ref(db, `rooms/${roomId}`), { updatedAt: Date.now() });
+}
+
 export async function startRoundInFirebase(room: Room): Promise<void> {
   const players = room.players || {};
   const playerIds = Object.keys(players).sort();
+  if (playerIds.length === 0) return;
+
   const usedTopics = room.usedTopics || [];
-  const roundIndex = usedTopics.length;
+  const history = room.history || [];
+  const roundIndex = history.length;
   const guesserId = playerIds[roundIndex % playerIds.length];
+  const guesserIndex = playerIds.indexOf(guesserId);
+  const controllerId = playerIds[(guesserIndex + 1) % playerIds.length];
   
   const topicListBase = getTopicListByLang(room.language);
   const topicList = room.topicList || topicListBase;
@@ -137,6 +163,7 @@ export async function startRoundInFirebase(room: Room): Promise<void> {
     topic: '',
     options,
     guesserId,
+    controllerId,
     hints: {},
   };
 
@@ -188,6 +215,10 @@ export async function submitHintInFirebase(room: Room, playerId: string, hintTex
   await update(ref(db), updates);
 }
 
+export async function undoSubmitHintInFirebase(roomId: string, playerId: string): Promise<void> {
+  await set(ref(db, `rooms/${roomId}/currentRound/hints/${playerId}`), null);
+}
+
 export async function toggleEliminateInFirebase(room: Room, targetId: string): Promise<void> {
   if (!room.currentRound || !room.currentRound.hints) return;
   const currentStatus = room.currentRound.hints[targetId]?.isEliminated ?? false;
@@ -215,26 +246,47 @@ export async function submitGuessInFirebase(room: Room, guess: string): Promise<
 }
 
 export async function finalizeResultInFirebase(room: Room, result: RoundResult): Promise<void> {
-  const newScore = result === 'correct' ? room.score + 1 : room.score;
+  let scoreDelta = 0;
+  if (result === 'correct') scoreDelta = 1;
+  else if (result === 'incorrect') scoreDelta = -1;
+
   const updates: any = {
     [`rooms/${room.id}/currentRound/result`]: result,
-    [`rooms/${room.id}/score`]: newScore,
+    [`rooms/${room.id}/score`]: room.score + scoreDelta,
     [`rooms/${room.id}/updatedAt`]: Date.now(),
   };
   await update(ref(db), updates);
 }
 
 export async function goNextRoundInFirebase(room: Room): Promise<void> {
-  const usedTopics = room.usedTopics || [];
-  const isLastRound = usedTopics.length >= room.totalRounds;
+  if (!room.currentRound) return;
+  
+  const history = room.history || [];
+  const updatedHistory = [...history, room.currentRound];
+  const isLastRound = !room.isFreeMode && updatedHistory.length >= room.totalRounds;
+
   if (isLastRound) {
     await update(ref(db, `rooms/${room.id}`), {
       phase: 'summary',
+      history: updatedHistory,
       updatedAt: Date.now()
     });
   } else {
-    await startRoundInFirebase(room);
+    // 履歴を更新した状態のルームオブジェクトを渡して開始
+    const updatedRoom = { ...room, history: updatedHistory };
+    await update(ref(db, `rooms/${room.id}`), { history: updatedHistory });
+    await startRoundInFirebase(updatedRoom);
   }
+}
+
+export async function endFreeModeInFirebase(room: Room): Promise<void> {
+  const history = room.history || [];
+  const finalHistory = room.currentRound ? [...history, room.currentRound] : history;
+  await update(ref(db, `rooms/${room.id}`), {
+    phase: 'summary',
+    history: finalHistory,
+    updatedAt: Date.now()
+  });
 }
 
 // ============================================================
@@ -266,11 +318,11 @@ export function useGameStore() {
     });
   }, []);
 
-  const handleCreateRoom = useCallback(async (language: Language) => {
+  const handleCreateRoom = useCallback(async (language: Language, totalRounds?: number, isFreeMode?: boolean) => {
     if (!playerName.trim()) { setError('名前を入力してください'); return; }
     setIsLoading(true);
     try {
-      const newRoom = await createRoomInFirebase(playerId, playerName, language);
+      const newRoom = await createRoomInFirebase(playerId, playerName, language, totalRounds, isFreeMode);
       setRoom(newRoom);
       return newRoom;
     } catch (e) {
@@ -302,11 +354,15 @@ export function useGameStore() {
     startRound: () => room && startRoundInFirebase(room),
     selectTopic: (topic: string) => room && selectTopicInFirebase(room, topic),
     submitHint: (hint: string) => room && submitHintInFirebase(room, playerId, hint),
+    undoSubmitHint: () => room && undoSubmitHintInFirebase(room.id, playerId),
     toggleEliminate: (id: string) => room && toggleEliminateInFirebase(room, id),
     confirmCheck: () => room && confirmCheckInFirebase(room),
     submitGuess: (guess: string) => room && submitGuessInFirebase(room, guess),
     finalizeResult: (result: RoundResult) => room && finalizeResultInFirebase(room, result),
     goNextRound: () => room && goNextRoundInFirebase(room),
+    kickPlayer: (targetId: string) => room && kickPlayerInFirebase(room.id, targetId),
+    leaveRoom: () => room && leaveRoomInFirebase(room.id, playerId),
+    endFreeMode: () => room && endFreeModeInFirebase(room),
   };
 
   return {

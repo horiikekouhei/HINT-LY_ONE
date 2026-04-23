@@ -36,6 +36,7 @@ export interface Round {
   topic: string;
   options?: string[]; // 選択肢
   guesserId: string;
+  controllerId?: string; // お題を選択するプレイヤーのID
   hints: Record<string, Hint>; // playerId -> Hint
   guess?: string;
   result?: RoundResult;
@@ -48,8 +49,10 @@ export interface Room {
   phase: GamePhase;
   players: Record<string, Player>; // playerId -> Player
   currentRound?: Round;
+  history?: Round[]; // 過去のラウンド履歴
   score: number;
   totalRounds: number;
+  isFreeMode?: boolean; // フリーモード（無限ラウンド）かどうか
   topicList: string[];
   usedTopics: string[];
   language: 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'es' | 'hi' | 'ar' | 'fr'; // 部屋の言語

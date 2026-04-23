@@ -13,7 +13,8 @@ export default function WaitingRoom() {
     playerId, 
     error, 
     subscribeToRoom,
-    startRound 
+    startRound,
+    kickPlayer
   } = useGameStore();
   const { t } = useLanguage();
   
@@ -26,6 +27,14 @@ export default function WaitingRoom() {
       return () => unsubscribe();
     }
   }, [roomId, subscribeToRoom]);
+
+  // 自身が部屋からいなくなった場合（キックされた場合）
+  useEffect(() => {
+    if (room && !room.players[playerId]) {
+      alert(t('waiting.kickedDesc'));
+      navigate('/');
+    }
+  }, [room, playerId, navigate, t]);
 
   // ゲームが始まったら自動で遷移
   useEffect(() => {
@@ -102,6 +111,15 @@ export default function WaitingRoom() {
               <div className="player-badges">
                 {p.id === playerId && <span className="badge badge-primary">{t('waiting.you')}</span>}
                 {p.isHost && <span className="badge badge-gold">{t('waiting.host')}</span>}
+                {isHost && p.id !== playerId && (
+                  <button 
+                    className="btn-kick" 
+                    onClick={() => window.confirm(t('waiting.kickConfirm')) && kickPlayer && kickPlayer(p.id)}
+                    title={t('waiting.kick')}
+                  >
+                    ✕
+                  </button>
+                )}
               </div>
             </li>
           ))}
@@ -125,6 +143,13 @@ export default function WaitingRoom() {
           </button>
         </div>
       )}
+
+      {/* 退出ボタン */}
+      <div style={{ marginTop: '24px', textAlign: 'center' }}>
+        <button className="btn btn-secondary btn-sm" onClick={() => navigate('/')}>
+          {t('game.common.leave')}
+        </button>
+      </div>
 
       {!isHost && (
         <p className="waiting-for-host animate-pulse text-muted">
