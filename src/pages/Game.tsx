@@ -48,25 +48,24 @@ export default function Game() {
     }
   }, [room, playerId, navigate]);
 
-  const isAbortingRef = useRef(false);
+  const abortedRoundNumberRef = useRef(-1);
 
   // 誰かアクティブプレイヤーが抜けた場合（切断など）、ホスト（または代わりの進行役）がラウンドをスキップする
   useEffect(() => {
     if (!room || room.phase === 'waiting' || room.phase === 'summary' || room.phase === 'phase5_result') {
-      isAbortingRef.current = false;
       return;
     }
     
     const activeIds = room.currentRound?.activePlayerIds;
     if (!activeIds) return;
     
-    const currentPlayers = Object.keys(room.players || {});
+    const currentPlayers = Object.keys(room.players || {}).sort();
     const missingActivePlayers = activeIds.filter(id => !currentPlayers.includes(id));
 
-    if (missingActivePlayers.length > 0 && !isAbortingRef.current) {
+    if (missingActivePlayers.length > 0 && abortedRoundNumberRef.current !== room.currentRound.roundNumber) {
       const controller = currentPlayers.includes(room.hostId) ? room.hostId : currentPlayers[0];
       if (playerId === controller) {
-        isAbortingRef.current = true;
+        abortedRoundNumberRef.current = room.currentRound.roundNumber;
         if (abortRound) abortRound();
       }
     }
