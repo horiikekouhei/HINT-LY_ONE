@@ -237,7 +237,11 @@ export async function submitHintInFirebase(room: Room, playerId: string, hintTex
 
   const players = room.players || {};
   const activeIds = room.currentRound.activePlayerIds || Object.keys(players);
-  const nonGuessers = activeIds.filter(id => id !== room.currentRound!.guesserId);
+  // 現在も部屋にいるプレイヤーのみを対象とする（退出者を待たない）
+  const presentPlayerIds = Object.keys(players);
+  const nonGuessers = activeIds.filter(
+    id => id !== room.currentRound!.guesserId && presentPlayerIds.includes(id)
+  );
   const currentHints = { ...(room.currentRound.hints || {}), [playerId]: hint };
   const allSubmitted = nonGuessers.every(id => currentHints[id]);
 
