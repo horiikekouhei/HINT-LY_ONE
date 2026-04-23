@@ -33,9 +33,9 @@ export default function Phase3Check({ room, playerId, isGuesser, onToggleElimina
 
   // 進行役の判定
   const players = room.players || {};
-  const playerIds = Object.keys(players).sort();
-  const activeNonGuessers = playerIds.filter(id => id !== round.guesserId);
-  const controllerId = room.hostId !== round.guesserId ? room.hostId : activeNonGuessers[0];
+  const activeIds = round.activePlayerIds || Object.keys(players).sort();
+  const activeNonGuessers = activeIds.filter(id => id !== round.guesserId);
+  const controllerId = round.controllerId || (room.hostId !== round.guesserId ? room.hostId : activeNonGuessers[0]);
   const isController = playerId === controllerId;
 
   return (

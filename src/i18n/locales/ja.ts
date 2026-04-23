@@ -74,6 +74,7 @@ export const ja = {
       warnOneWord: "⚠️ 1単語のみ入力できます",
       submitBtn: "ヒントを送る",
       rewriteBtn: "書き直す",
+      joiningNextRound: "次のラウンドからゲームに参加します。しばらくお待ちください。",
     },
     phase3: {
       tag: "Phase 3 — 重複チェック",

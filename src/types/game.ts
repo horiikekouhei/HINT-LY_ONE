@@ -40,6 +40,7 @@ export interface Round {
   hints: Record<string, Hint>; // playerId -> Hint
   guess?: string;
   result?: RoundResult;
+  activePlayerIds?: string[]; // ラウンド開始時に参加していたプレイヤー
 }
 
 // ルーム（ゲームの状態）

@@ -125,14 +125,48 @@ export async function joinRoomInFirebase(roomId: string, playerId: string, playe
   return true;
 }
 
+async function handlePlayerRemoval(roomId: string, targetId: string) {
+  const roomRef = ref(db, `rooms/${roomId}`);
+  const snapshot = await get(roomRef);
+  if (!snapshot.exists()) return;
+  const room = snapshot.val() as Room;
+
+  if (!room.players) return;
+  delete room.players[targetId];
+
+  const updates: any = {
+    [`rooms/${roomId}/players/${targetId}`]: null,
+    [`rooms/${roomId}/updatedAt`]: Date.now(),
+  };
+
+  // もしゲーム進行中（結果発表より前）にアクティブプレイヤーが抜けた場合、ラウンドを中断して次へ
+  if (room.phase !== 'waiting' && room.phase !== 'summary' && room.phase !== 'phase5_result') {
+    const activeIds = room.currentRound?.activePlayerIds || [];
+    if (activeIds.includes(targetId)) {
+      if (room.currentRound) {
+        room.currentRound.result = 'pass';
+        room.currentRound.guess = '__ABORTED__';
+        const newHistory = [...(room.history || []), cleanForFirebase(room.currentRound)];
+        updates[`rooms/${roomId}/history`] = newHistory;
+        room.history = newHistory; // startRoundInFirebaseのために参照を更新
+      }
+      
+      // 更新を反映させてから次のラウンドを開始
+      await update(ref(db), updates);
+      await startRoundInFirebase(room);
+      return;
+    }
+  }
+
+  await update(ref(db), updates);
+}
+
 export async function kickPlayerInFirebase(roomId: string, targetId: string): Promise<void> {
-  await set(ref(db, `rooms/${roomId}/players/${targetId}`), null);
-  await update(ref(db, `rooms/${roomId}`), { updatedAt: Date.now() });
+  await handlePlayerRemoval(roomId, targetId);
 }
 
 export async function leaveRoomInFirebase(roomId: string, playerId: string): Promise<void> {
-  await set(ref(db, `rooms/${roomId}/players/${playerId}`), null);
-  await update(ref(db, `rooms/${roomId}`), { updatedAt: Date.now() });
+  await handlePlayerRemoval(roomId, playerId);
 }
 
 export async function startRoundInFirebase(room: Room): Promise<void> {
@@ -165,6 +199,7 @@ export async function startRoundInFirebase(room: Room): Promise<void> {
     guesserId,
     controllerId,
     hints: {},
+    activePlayerIds: playerIds,
   };
 
   const updates: any = {
@@ -202,7 +237,8 @@ export async function submitHintInFirebase(room: Room, playerId: string, hintTex
   };
 
   const players = room.players || {};
-  const nonGuessers = Object.keys(players).filter(id => id !== room.currentRound!.guesserId);
+  const activeIds = room.currentRound.activePlayerIds || Object.keys(players);
+  const nonGuessers = activeIds.filter(id => id !== room.currentRound!.guesserId);
   const currentHints = { ...(room.currentRound.hints || {}), [playerId]: hint };
   const allSubmitted = nonGuessers.every(id => currentHints[id]);
 

@@ -21,7 +21,8 @@ export default function Phase2Hint({ room, playerId, isGuesser, onSubmit, onUndo
   const { t } = useLanguage();
 
   const players = room.players || {};
-  const nonGuessers = Object.values(players).filter(p => !p.isGuesser);
+  const activeIds = round.activePlayerIds || Object.keys(players);
+  const nonGuessers = Object.values(players).filter(p => !p.isGuesser && activeIds.includes(p.id));
   const submittedCount = nonGuessers.filter(p => hints[p.id]).length;
 
   const handleSubmit = () => {

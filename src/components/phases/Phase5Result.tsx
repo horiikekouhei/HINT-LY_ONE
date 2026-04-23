@@ -21,9 +21,9 @@ export default function Phase5Result({ room, playerId, onFinalize, onNext, onEnd
   const hintsList = Object.values(hintsObj);
   
   // 進行役の判定
-  const playerIds = Object.keys(players).sort();
-  const activeNonGuessers = playerIds.filter(id => id !== round.guesserId);
-  const controllerId = room.hostId !== round.guesserId ? room.hostId : activeNonGuessers[0];
+  const activeIds = round.activePlayerIds || Object.keys(players).sort();
+  const activeNonGuessers = activeIds.filter(id => id !== round.guesserId);
+  const controllerId = round.controllerId || (room.hostId !== round.guesserId ? room.hostId : activeNonGuessers[0]);
   const isController = playerId === controllerId;
 
   const isPass = round.guess === '__PASS__';

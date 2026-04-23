@@ -102,14 +102,25 @@ export default function Game() {
 
       {/* フェーズコンポーネント */}
       <main className="game-main">
-        {room.phase === 'phase1_topic' && (
-          <Phase1Topic
-            room={room}
-            playerId={playerId}
-            isGuesser={isGuesser}
-            onSelect={(topic) => selectTopic && selectTopic(topic)}
-          />
-        )}
+        {room.phase !== 'summary' && round.activePlayerIds && !round.activePlayerIds.includes(playerId) ? (
+          <div className="phase-container animate-fadeIn">
+            <span className="phase-tag">{t('game.phase1.tag')}</span>
+            <div className="guesser-waiting-card card">
+              <div className="guesser-icon animate-pulse">⏳</div>
+              <h2 className="phase-title">{t('game.phase2.waitingOthers')}</h2>
+              <p className="phase-desc">{t('game.phase2.joiningNextRound')}</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {room.phase === 'phase1_topic' && (
+              <Phase1Topic
+                room={room}
+                playerId={playerId}
+                isGuesser={isGuesser}
+                onSelect={(topic) => selectTopic && selectTopic(topic)}
+              />
+            )}
         {room.phase === 'phase2_hint' && (
           <Phase2Hint
             room={room}
@@ -147,8 +158,12 @@ export default function Game() {
         {room.phase === 'summary' && (
           <GameSummary
             room={room}
-            onFinish={() => navigate('/')}
+            onFinish={() => {
+              navigate('/');
+            }}
           />
+        )}
+          </>
         )}
       </main>
 
