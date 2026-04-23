@@ -188,8 +188,8 @@ export default function Game() {
         ))}
         <button 
           className="game-player-chip btn-leave" 
-          onClick={() => {
-            if (leaveRoom) leaveRoom();
+          onClick={async () => {
+            if (leaveRoom) await leaveRoom();
             navigate('/');
           }}
           style={{ cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}

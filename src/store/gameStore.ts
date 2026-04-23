@@ -132,6 +132,7 @@ async function handlePlayerRemoval(roomId: string, targetId: string) {
   const room = snapshot.val() as Room;
 
   if (!room.players) return;
+  const originalPlayers = { ...room.players };
   delete room.players[targetId];
 
   const updates: any = {
@@ -141,7 +142,7 @@ async function handlePlayerRemoval(roomId: string, targetId: string) {
 
   // もしゲーム進行中（結果発表より前）にアクティブプレイヤーが抜けた場合、ラウンドを中断して次へ
   if (room.phase !== 'waiting' && room.phase !== 'summary' && room.phase !== 'phase5_result') {
-    const activeIds = room.currentRound?.activePlayerIds || [];
+    const activeIds = room.currentRound?.activePlayerIds || Object.keys(originalPlayers);
     if (activeIds.includes(targetId)) {
       if (room.currentRound) {
         room.currentRound.result = 'pass';
