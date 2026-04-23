@@ -67,7 +67,7 @@ export default function Game() {
           </span>
         </div>
         <div className="game-header-center">
-          <span className="game-logo-text text-gradient">HINT-LY ONE</span>
+          <span className="game-logo-text text-gradient notranslate" translate="no">HINT-LY ONE</span>
         </div>
         <div className="game-header-right">
           <span className="game-score">

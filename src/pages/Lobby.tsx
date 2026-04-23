@@ -58,7 +58,7 @@ export default function Lobby() {
       {/* タイトルロゴ */}
       <div className="lobby-logo animate-fadeIn">
         <div className="logo-gem animate-float">💎</div>
-        <h1 className="logo-title">
+        <h1 className="logo-title notranslate" translate="no">
           <span className="text-gradient">HINT-LY</span>
           <span className="logo-one">ONE</span>
         </h1>
