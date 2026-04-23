@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ref, set, onValue, update, get } from 'firebase/database';
+import { ref, set, onValue, update, get, onDisconnect } from 'firebase/database';
 import { db } from '../firebase/config';
 import type { Room, Player, Round, Hint, RoundResult } from '../types/game';
 import { 
@@ -98,6 +98,11 @@ export async function createRoomInFirebase(
   };
 
   await set(ref(db, `rooms/${roomId}`), cleanForFirebase(room));
+  
+  // 接続が切れたら自動退出する設定
+  const playerRef = ref(db, `rooms/${roomId}/players/${hostId}`);
+  onDisconnect(playerRef).remove();
+  
   return room;
 }
 
@@ -122,6 +127,11 @@ export async function joinRoomInFirebase(roomId: string, playerId: string, playe
     [playerId]: cleanForFirebase(player)
   });
   await update(roomRef, { updatedAt: Date.now() });
+
+  // 接続が切れたら自動退出する設定
+  const playerRef = ref(db, `rooms/${roomId}/players/${playerId}`);
+  onDisconnect(playerRef).remove();
+
   return true;
 }
 
@@ -160,6 +170,23 @@ async function handlePlayerRemoval(roomId: string, targetId: string) {
   }
 
   await update(ref(db), updates);
+}
+
+export async function abortRoundInFirebase(room: Room): Promise<void> {
+  const updates: any = {
+    [`rooms/${room.id}/updatedAt`]: Date.now(),
+  };
+
+  if (room.currentRound) {
+    room.currentRound.result = 'pass';
+    room.currentRound.guess = '__ABORTED__';
+    const newHistory = [...(room.history || []), cleanForFirebase(room.currentRound)];
+    updates[`rooms/${room.id}/history`] = newHistory;
+    room.history = newHistory;
+  }
+  
+  await update(ref(db), updates);
+  await startRoundInFirebase(room);
 }
 
 export async function kickPlayerInFirebase(roomId: string, targetId: string): Promise<void> {
@@ -403,6 +430,7 @@ export function useGameStore() {
     goNextRound: () => room && goNextRoundInFirebase(room),
     kickPlayer: (targetId: string) => room && kickPlayerInFirebase(room.id, targetId),
     leaveRoom: () => room && leaveRoomInFirebase(room.id, playerId),
+    abortRound: () => room && abortRoundInFirebase(room),
     endFreeMode: () => room && endFreeModeInFirebase(room),
   };
 

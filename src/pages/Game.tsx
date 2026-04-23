@@ -28,6 +28,7 @@ export default function Game() {
     goNextRound,
     kickPlayer,
     leaveRoom,
+    abortRound,
     endFreeMode
   } = useGameStore();
   const { t } = useLanguage();
@@ -46,6 +47,24 @@ export default function Game() {
       navigate('/');
     }
   }, [room, playerId, navigate]);
+
+  // 誰かアクティブプレイヤーが抜けた場合（切断など）、ホスト（または代わりの進行役）がラウンドをスキップする
+  useEffect(() => {
+    if (!room || room.phase === 'waiting' || room.phase === 'summary' || room.phase === 'phase5_result') return;
+    
+    const activeIds = room.currentRound?.activePlayerIds;
+    if (!activeIds) return;
+    
+    const currentPlayers = Object.keys(room.players || {});
+    const missingActivePlayers = activeIds.filter(id => !currentPlayers.includes(id));
+
+    if (missingActivePlayers.length > 0) {
+      const controller = currentPlayers.includes(room.hostId) ? room.hostId : currentPlayers[0];
+      if (playerId === controller) {
+        if (abortRound) abortRound();
+      }
+    }
+  }, [room, playerId, abortRound]);
 
   if (!room || !room.currentRound) {
     return (
