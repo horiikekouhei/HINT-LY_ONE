@@ -26,7 +26,7 @@ export const ja = {
     },
     roomLanguage: "部屋の言語",
     roundCount: "ラウンド数",
-    freeMode: "フリーモード (無限)",
+    freeMode: "フリーモード",
     freeModeDesc: "いつでも終了でき、途中参加も可能です",
   },
   waiting: {
