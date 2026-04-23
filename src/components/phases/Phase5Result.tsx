@@ -66,13 +66,16 @@ export default function Phase5Result({ room, playerId, onFinalize, onNext, onEnd
         <span className="result-box-label" style={{ marginBottom: 8 }}>{t('game.phase5.hintList')}</span>
         <div className="result-hints-grid">
           {hintsList.map(h => (
-            <span
+            <div
               key={h.playerId}
               className={`result-hint-chip ${h.isEliminated ? 'eliminated-chip' : 'valid-chip'}`}
             >
-              {h.isEliminated && <FiX size={12} />}
-              {h.text}
-            </span>
+              <span className="result-hint-name">{h.playerName}</span>
+              <span className="result-hint-text">
+                {h.isEliminated && <FiX size={12} />}
+                {h.text}
+              </span>
+            </div>
           ))}
         </div>
       </div>

@@ -645,13 +645,31 @@
 }
 
 .result-hint-chip {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 6px 14px;
-  border-radius: 100px;
+  gap: 2px;
+  padding: 8px 16px;
+  border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 700;
+  min-width: 80px;
+}
+
+.result-hint-name {
+  font-size: 0.65rem;
+  font-weight: 600;
+  opacity: 0.65;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.result-hint-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 .valid-chip {
@@ -664,6 +682,9 @@
   background: rgba(255,74,108,0.08);
   color: rgba(255,108,138,0.5);
   border: 1px solid rgba(255,74,108,0.15);
+}
+
+.eliminated-chip .result-hint-text {
   text-decoration: line-through;
 }
 
