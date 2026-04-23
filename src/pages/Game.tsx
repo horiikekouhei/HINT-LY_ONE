@@ -27,6 +27,7 @@ export default function Game() {
     finalizeResult,
     goNextRound,
     kickPlayer,
+    leaveRoom,
     endFreeMode
   } = useGameStore();
   const { t } = useLanguage();
@@ -187,7 +188,10 @@ export default function Game() {
         ))}
         <button 
           className="game-player-chip btn-leave" 
-          onClick={() => navigate('/')}
+          onClick={() => {
+            if (leaveRoom) leaveRoom();
+            navigate('/');
+          }}
           style={{ cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}
         >
           🚪 {t('game.common.leave')}
