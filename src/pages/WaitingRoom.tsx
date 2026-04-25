@@ -58,7 +58,7 @@ export default function WaitingRoom() {
   };
 
   const isHost = room?.hostId === playerId;
-  const players = room ? Object.values(room.players) : [];
+  const players = room?.players ? Object.values(room.players) : [];
   const canStart = players.length >= 2;
 
   if (!room) {

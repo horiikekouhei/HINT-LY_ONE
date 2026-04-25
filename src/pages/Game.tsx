@@ -82,7 +82,7 @@ export default function Game() {
   const round = room.currentRound;
   const isGuesser = round.guesserId === playerId;
   const isHost = room.hostId === playerId;
-  const players = Object.values(room.players || {});
+  const players = room.players ? Object.values(room.players) : [];
 
   return (
     <div className="game-page">
