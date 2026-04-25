@@ -43,7 +43,7 @@ export default function Game() {
 
   // 自身が部屋からいなくなった場合（キックされた場合）
   useEffect(() => {
-    if (room && playerId && !room.players[playerId]) {
+    if (room && playerId && !room.players?.[playerId]) {
       navigate('/');
     }
   }, [room, playerId, navigate]);
