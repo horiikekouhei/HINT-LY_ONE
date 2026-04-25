@@ -125,6 +125,7 @@ export const en = {
       scoreLabel: "Score",
       guesserRole: "Guesser",
       privacyPolicy: "Privacy Policy",
+      contact: "Contact",
       shareX: "Share on X",
       shareText: "I got a score of {{score}} in HINT-LY ONE! #HintlyOne",
     }
@@ -151,5 +152,12 @@ export const en = {
         content: "For inquiries regarding this policy, please contact the developer."
       }
     ]
+  },
+  contact: {
+    title: "Contact",
+    nameLabel: "Developer",
+    emailLabel: "Email Address",
+    description: "If you have any questions, bug reports, or suggestions for HINT-LY ONE, please feel free to reach out to us at the following address.",
+    respondTime: "We usually respond within 3 business days."
   }
 };

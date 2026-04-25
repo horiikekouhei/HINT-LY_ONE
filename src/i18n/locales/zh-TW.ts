@@ -120,6 +120,7 @@ export const zhTW = {
       endGame: "結束",
       leave: "退出",
       privacyPolicy: "隱私政策",
+      contact: "聯繫我們",
       shareX: "在 X 上分享",
       shareText: "我在 HINT-LY ONE 中獲得了 {{score}} 分！ #HintlyOne",
     }
@@ -146,5 +147,12 @@ export const zhTW = {
         content: "如果您對本政策有任何疑問，請聯繫開發人員。"
       }
     ]
+  },
+  contact: {
+    title: "聯繫我們",
+    nameLabel: "開發者",
+    emailLabel: "電子郵件地址",
+    description: "如果您對 HINT-LY ONE 有任何疑問、錯誤報告或建議，請隨時通過以下地址與我們聯繫。",
+    respondTime: "我們通常會在 3 個工作日內回覆。"
   }
 };

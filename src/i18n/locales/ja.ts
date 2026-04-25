@@ -135,6 +135,7 @@ export const ja = {
       endGame: "終了",
       leave: "退出",
       privacyPolicy: "プライバシーポリシー",
+      contact: "お問い合わせ",
       shareX: "Xでシェア",
       shareText: "HINT-LY ONEでスコア {{score}} を獲得しました！ #HintlyOne",
     }
@@ -161,5 +162,12 @@ export const ja = {
         content: "本ポリシーに関するお問い合わせは、開発者までご連絡ください。"
       }
     ]
+  },
+  contact: {
+    title: "お問い合わせ",
+    nameLabel: "運営者",
+    emailLabel: "メールアドレス",
+    description: "HINT-LY ONE に関するご質問、不具合報告、改善のご要望などは、以下の連絡先までお気軽にお問い合わせください。",
+    respondTime: "通常、3営業日以内に返信いたします。"
   }
 };

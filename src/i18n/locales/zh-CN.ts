@@ -120,6 +120,7 @@ export const zhCN = {
       endGame: "结束",
       leave: "退出",
       privacyPolicy: "隐私政策",
+      contact: "联系我们",
       shareX: "在 X 上分享",
       shareText: "我在 HINT-LY ONE 中获得了 {{score}} 分！ #HintlyOne",
     }
@@ -146,5 +147,12 @@ export const zhCN = {
         content: "如果您对本政策有任何疑问，请联系开发人员。"
       }
     ]
+  },
+  contact: {
+    title: "联系我们",
+    nameLabel: "开发者",
+    emailLabel: "电子邮件地址",
+    description: "如果您对 HINT-LY ONE 有任何疑问、错误报告或建议，请随时通过以下地址与我们联系。",
+    respondTime: "我们通常会在 3 个工作日内回复。"
   }
 };

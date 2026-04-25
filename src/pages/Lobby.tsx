@@ -199,6 +199,10 @@ export default function Lobby() {
         <button className="link-btn" onClick={() => navigate('/privacy')}>
           {t('game.common.privacyPolicy', { defaultValue: 'Privacy Policy' })}
         </button>
+        <span className="footer-separator">|</span>
+        <button className="link-btn" onClick={() => navigate('/contact')}>
+          {t('game.common.contact', { defaultValue: 'Contact' })}
+        </button>
       </footer>
     </div>
   );

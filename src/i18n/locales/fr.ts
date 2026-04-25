@@ -120,6 +120,7 @@ export const fr = {
       endGame: "Terminer",
       leave: "Quitter",
       privacyPolicy: "Politique de confidentialité",
+      contact: "Contact",
       shareX: "Partager sur X",
       shareText: "J'ai obtenu {{score}} points sur HINT-LY ONE ! #HintlyOne",
     }
@@ -146,5 +147,12 @@ export const fr = {
         content: "Pour toute question concernant cette politique, veuillez contacter le développeur."
       }
     ]
+  },
+  contact: {
+    title: "Contact",
+    nameLabel: "Développeur",
+    emailLabel: "Adresse e-mail",
+    description: "Si vous avez des questions, des rapports de bogues ou des suggestions pour HINT-LY ONE, n'hésitez pas à nous contacter à l'adresse suivante.",
+    respondTime: "Nous répondons généralement sous 3 jours ouvrables."
   }
 };

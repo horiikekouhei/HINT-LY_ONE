@@ -4,6 +4,7 @@ import Lobby from './pages/Lobby';
 import WaitingRoom from './pages/WaitingRoom';
 import Game from './pages/Game';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/waiting/:roomId" element={<WaitingRoom />} />
         <Route path="/game/:roomId" element={<Game />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

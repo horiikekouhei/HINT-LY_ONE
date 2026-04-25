@@ -132,6 +132,7 @@ export const ko = {
       endGame: "종료",
       leave: "나가기",
       privacyPolicy: "개인정보 처리방침",
+      contact: "문의하기",
       shareX: "X에 공유",
       shareText: "HINT-LY ONE에서 {{score}}점을 획득했습니다! #HintlyOne",
     }
@@ -158,5 +159,12 @@ export const ko = {
         content: "본 방침에 관한 문의는 개발자에게 연락해 주시기 바랍니다."
       }
     ]
+  },
+  contact: {
+    title: "문의하기",
+    nameLabel: "운영자",
+    emailLabel: "이메일 주소",
+    description: "HINT-LY ONE에 관한 질문, 버그 보고, 개선 요청 등은 아래 연락처로 언제든지 문의해 주세요.",
+    respondTime: "보통 영업일 기준 3일 이내에 답변해 드립니다."
   }
 };
