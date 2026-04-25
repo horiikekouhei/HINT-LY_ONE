@@ -196,7 +196,7 @@ export default function Lobby() {
       {/* フッターリンク */}
       <footer className="lobby-footer animate-fadeIn delay-5">
         <button className="link-btn" onClick={() => navigate('/privacy')}>
-          {t('game.common.privacyPolicy')}
+          {t('game.common.privacyPolicy', { defaultValue: 'Privacy Policy' })}
         </button>
       </footer>
     </div>

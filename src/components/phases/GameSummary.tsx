@@ -28,7 +28,10 @@ export default function GameSummary({ room, onFinish }: Props) {
 
   const shareOnX = () => {
     const scoreStr = `${score} / ${isFreeMode ? totalPlayed : totalRounds}`;
-    const text = t('game.common.shareText', { score: scoreStr });
+    const text = t('game.common.shareText', { 
+      score: scoreStr, 
+      defaultValue: `I got a score of ${scoreStr} in HINT-LY ONE! #HintlyOne` 
+    });
     const url = window.location.origin;
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
     window.open(tweetUrl, '_blank');

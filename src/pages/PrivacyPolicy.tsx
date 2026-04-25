@@ -7,7 +7,8 @@ export default function PrivacyPolicy() {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const sections = (t('privacy.sections', { returnObjects: true } as any) as any) || [];
+  const rawSections = t('privacy.sections', { returnObjects: true } as any);
+  const sections = Array.isArray(rawSections) ? rawSections : [];
 
   return (
     <div className="page privacy-page">
@@ -25,7 +26,7 @@ export default function PrivacyPolicy() {
         <div className="privacy-content">
           <p className="privacy-intro">{t('privacy.introduction')}</p>
 
-          {sections.map((section: any, i: number) => (
+          {Array.isArray(sections) && sections.map((section: any, i: number) => (
             <section key={i} className="privacy-section">
               <h2 className="section-title">{section.title}</h2>
               <p className="section-content">{section.content}</p>
