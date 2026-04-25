@@ -43,7 +43,7 @@ export default function Game() {
 
   // 自身が部屋からいなくなった場合（キックされた場合）
   useEffect(() => {
-    if (room && !room.players[playerId]) {
+    if (room && playerId && !room.players[playerId]) {
       navigate('/');
     }
   }, [room, playerId, navigate]);
@@ -71,7 +71,7 @@ export default function Game() {
     }
   }, [room, playerId, abortRound]);
 
-  if (!room || !room.currentRound) {
+  if (!room || !room.currentRound || !playerId) {
     return (
       <div className="page">
         <div className="spinner" />

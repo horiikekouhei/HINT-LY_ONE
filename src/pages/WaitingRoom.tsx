@@ -31,11 +31,12 @@ export default function WaitingRoom() {
 
   // 自身が部屋からいなくなった場合（キックされた場合）
   useEffect(() => {
-    if (room && !room.players[playerId]) {
+    if (room && playerId && !room.players[playerId]) {
       alert(t('waiting.kickedDesc'));
       navigate('/');
     }
   }, [room, playerId, navigate, t]);
+
 
   // ゲームが始まったら自動で遷移
   useEffect(() => {
