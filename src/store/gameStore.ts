@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ref, set, onValue, update, get, onDisconnect } from 'firebase/database';
-import { db } from '../firebase/config';
+import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { db, auth } from '../firebase/config';
 import type { Room, Player, Round, Hint, RoundResult } from '../types/game';
 import { 
   TOPIC_LIST_JA, 
@@ -36,23 +37,14 @@ export function generateId(length = 6): string {
   return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 }
 
-// プレイヤーIDをセッションストレージに保存・取得
-const PLAYER_ID_KEY = 'hintlyone_player_id';
-export function getOrCreatePlayerId(): string {
-  let id = sessionStorage.getItem(PLAYER_ID_KEY);
-  if (!id) {
-    id = generateId(8);
-    sessionStorage.setItem(PLAYER_ID_KEY, id);
-  }
-  return id;
-}
+// 以前のカスタムID生成ロジックは匿名認証に置き換えられました
 
 // Firebase 向けにオブジェクトをクリーンアップ（undefined を削除）
 function cleanForFirebase(obj: any) {
   if (!obj) return obj;
   const newObj = { ...obj };
   Object.keys(newObj).forEach(key => {
-    if (newObj[key] === undefined) {
+    if (newObj[key] === undefined || (Array.isArray(newObj[key]) && newObj[key].length === 0)) {
       delete newObj[key];
     }
   });
@@ -337,12 +329,36 @@ export async function endFreeModeInFirebase(room: Room): Promise<void> {
 // ============================================================
 export function useGameStore() {
   const [room, setRoom] = useState<Room | null>(null);
-  const [playerId] = useState<string>(() => getOrCreatePlayerId());
+  const [playerId, setPlayerId] = useState<string | null>(auth.currentUser?.uid || null);
   const [playerName, setPlayerName] = useState<string>(
     () => sessionStorage.getItem('hintlyone_player_name') ?? ''
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(!auth.currentUser);
   const [error, setError] = useState<string | null>(null);
+
+  // 匿名認証の初期化
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log("Authenticated as:", user.uid);
+        setPlayerId(user.uid);
+        setIsLoading(false);
+      } else {
+        console.log("No user, signing in anonymously...");
+        setIsLoading(true);
+        try {
+          const result = await signInAnonymously(auth);
+          setPlayerId(result.user.uid);
+        } catch (e) {
+          console.error('Auth error:', e);
+          setError('認証に失敗しました');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   const savePlayerName = useCallback((name: string) => {
     setPlayerName(name);
@@ -363,13 +379,15 @@ export function useGameStore() {
 
   const handleCreateRoom = useCallback(async (language: Language, totalRounds?: number, isFreeMode?: boolean) => {
     if (!playerName.trim()) { setError('名前を入力してください'); return; }
+    if (!playerId) { setError('認証中です。しばらくお待ちください'); return; }
     setIsLoading(true);
     try {
       const newRoom = await createRoomInFirebase(playerId, playerName, language, totalRounds, isFreeMode);
       setRoom(newRoom);
       return newRoom;
     } catch (e) {
-      setError('ルームの作成に失敗しました');
+      console.error('Create room error:', e);
+      setError('ルームの作成に失敗しました。詳細: ' + (e instanceof Error ? e.message : String(e)));
     } finally {
       setIsLoading(false);
     }
@@ -377,6 +395,7 @@ export function useGameStore() {
 
   const handleJoinRoom = useCallback(async (roomId: string) => {
     if (!playerName.trim()) { setError('名前を入力してください'); return null; }
+    if (!playerId) { setError('認証中です。しばらくお待ちください'); return null; }
     setIsLoading(true);
     try {
       const success = await joinRoomInFirebase(roomId.toUpperCase(), playerId, playerName);
@@ -396,15 +415,15 @@ export function useGameStore() {
   const actions = {
     startRound: () => room && startRoundInFirebase(room),
     selectTopic: (topic: string) => room && selectTopicInFirebase(room, topic),
-    submitHint: (hint: string) => room && submitHintInFirebase(room, playerId, hint),
-    undoSubmitHint: () => room && undoSubmitHintInFirebase(room.id, playerId),
+    submitHint: (hint: string) => room && playerId && submitHintInFirebase(room, playerId, hint),
+    undoSubmitHint: () => room && playerId && undoSubmitHintInFirebase(room.id, playerId),
     toggleEliminate: (id: string) => room && toggleEliminateInFirebase(room, id),
     confirmCheck: () => room && confirmCheckInFirebase(room),
     submitGuess: (guess: string) => room && submitGuessInFirebase(room, guess),
     finalizeResult: (result: RoundResult) => room && finalizeResultInFirebase(room, result),
     goNextRound: () => room && goNextRoundInFirebase(room),
     kickPlayer: (targetId: string) => room && kickPlayerInFirebase(room.id, targetId),
-    leaveRoom: () => room && leaveRoomInFirebase(room.id, playerId),
+    leaveRoom: () => room && playerId && leaveRoomInFirebase(room.id, playerId),
     abortRound: () => room && abortRoundInFirebase(room),
     endFreeMode: () => room && endFreeModeInFirebase(room),
   };

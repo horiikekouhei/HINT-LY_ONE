@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "rooms": {
+      ".read": "auth != null",
+      "$roomId": {
+        ".write": "auth != null && (!data.exists() || data.child('hostId').val() === auth.uid || data.child('players').hasChild(auth.uid))",
+        "players": {
+          "$uid": {
+            ".write": "auth.uid === $uid || data.parent().parent().child('hostId').val() === auth.uid"
+          }
+        },
+        "updatedAt": {
+          ".write": "true"
+        }
+      }
+    }
+  }
+}
