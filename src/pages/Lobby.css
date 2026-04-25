@@ -106,3 +106,22 @@
   font-size: 0.875rem;
   line-height: 1.5;
 }
+
+.lobby-footer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--clr-text-muted);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.link-btn:hover {
+  color: var(--clr-text);
+}

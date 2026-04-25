@@ -1,4 +1,4 @@
-import { FaTrophy, FaHome, FaMedal, FaHistory } from 'react-icons/fa';
+import { FaTrophy, FaHome, FaMedal, FaHistory, FaTwitter } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 import type { Room } from '../../types/game';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -25,6 +25,14 @@ export default function GameSummary({ room, onFinish }: Props) {
   };
 
   const award = getAward();
+
+  const shareOnX = () => {
+    const scoreStr = `${score} / ${isFreeMode ? totalPlayed : totalRounds}`;
+    const text = t('game.common.shareText', { score: scoreStr });
+    const url = window.location.origin;
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    window.open(tweetUrl, '_blank');
+  };
 
   return (
     <div className="phase-container animate-fadeIn" style={{ maxWidth: '600px', margin: '0 auto' }}>
@@ -94,15 +102,25 @@ export default function GameSummary({ room, onFinish }: Props) {
           </div>
         )}
 
-        <button
-          id="btn-return-lobby"
-          className="btn btn-primary btn-lg btn-full"
-          onClick={onFinish}
-          style={{ marginTop: '24px' }}
-        >
-          <FaHome size={20} />
-          {t('game.summary.backToLobby')}
-        </button>
+        <div className="action-group" style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <button
+            id="btn-share-x"
+            className="btn btn-accent btn-lg btn-full"
+            onClick={shareOnX}
+          >
+            <FaTwitter size={20} />
+            {t('game.common.shareX')}
+          </button>
+
+          <button
+            id="btn-return-lobby"
+            className="btn btn-primary btn-lg btn-full"
+            onClick={onFinish}
+          >
+            <FaHome size={20} />
+            {t('game.summary.backToLobby')}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -121,6 +121,32 @@ export const en = {
     common: {
       scoreLabel: "Score",
       guesserRole: "Guesser",
+      privacyPolicy: "Privacy Policy",
+      shareX: "Share on X",
+      shareText: "I got a score of {{score}} in HINT-LY ONE! #HintlyOne",
     }
+  },
+  privacy: {
+    title: "Privacy Policy",
+    lastUpdated: "Last Updated: April 25, 2024",
+    introduction: "This Privacy Policy describes how your personal information is handled on this site (HINT-LY ONE).",
+    sections: [
+      {
+        title: "1. Data Collection and Use",
+        content: "This site uses Firebase Anonymous Authentication for gameplay maintenance and session management. Collected information includes an anonymous user ID, player names, and hints/answers submitted within the game."
+      },
+      {
+        title: "2. Use of Cookies",
+        content: "This site uses Google Firebase services, which may use cookies for analysis and authentication purposes."
+      },
+      {
+        title: "3. Advertising",
+        content: "This site may display advertisements from third-party providers like Google AdSense in the future. These providers may use cookies to serve ads based on your past visits to this and other websites."
+      },
+      {
+        title: "4. Contact",
+        content: "For inquiries regarding this policy, please contact the developer."
+      }
+    ]
   }
 };

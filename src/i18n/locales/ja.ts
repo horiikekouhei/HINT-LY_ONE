@@ -134,6 +134,32 @@ export const ja = {
       guesserRole: "回答者",
       endGame: "終了",
       leave: "退出",
+      privacyPolicy: "プライバシーポリシー",
+      shareX: "Xでシェア",
+      shareText: "HINT-LY ONEでスコア {{score}} を獲得しました！ #HintlyOne",
     }
+  },
+  privacy: {
+    title: "プライバシーポリシー",
+    lastUpdated: "最終更新日: 2024年4月25日",
+    introduction: "当サイト（HINT-LY ONE）における個人情報の取扱いについて以下の通り定めます。",
+    sections: [
+      {
+        title: "1. データの収集と利用",
+        content: "当サイトでは、ゲームプレイの維持およびセッション管理のため、Firebaseの匿名認証を利用しています。収集される情報は、匿名のユーザーID、入力されたプレイヤー名、およびゲーム内で送信されたヒントや回答のみです。"
+      },
+      {
+        title: "2. Cookieの利用",
+        content: "当サイトでは、GoogleのFirebaseサービスを利用しており、分析や認証の目的でCookieを使用する場合があります。"
+      },
+      {
+        title: "3. 広告の配信",
+        content: "当サイトでは、将来的にGoogle AdSenseなどの第三者配信事業者による広告を掲載する場合があります。これらの事業者は、ユーザーの過去のアクセス情報に基づいて広告を配信するためにCookieを使用することがあります。"
+      },
+      {
+        title: "4. お問い合わせ",
+        content: "本ポリシーに関するお問い合わせは、開発者までご連絡ください。"
+      }
+    ]
   }
 };

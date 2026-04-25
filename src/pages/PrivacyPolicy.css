@@ -1,0 +1,87 @@
+.privacy-page {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: var(--bg-color);
+  overflow-y: auto;
+}
+
+.privacy-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 40px 0;
+  padding: 40px;
+  position: relative;
+}
+
+.btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.btn-back:hover {
+  color: var(--text-color);
+}
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+.privacy-title {
+  font-size: 2.2rem;
+  margin: 12px 0;
+}
+
+.privacy-updated {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.privacy-intro {
+  margin-bottom: 30px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.privacy-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: var(--accent-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.section-content {
+  line-height: 1.7;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
+  .privacy-container {
+    padding: 30px 20px;
+    margin: 20px 0;
+  }
+  .privacy-title {
+    font-size: 1.8rem;
+  }
+}
