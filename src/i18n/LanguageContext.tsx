@@ -8,11 +8,12 @@ import { es } from './locales/es';
 import { hi } from './locales/hi';
 import { ar } from './locales/ar';
 import { fr } from './locales/fr';
+import { de } from './locales/de';
 
-export type Language = 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'es' | 'hi' | 'ar' | 'fr';
+export type Language = 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'es' | 'hi' | 'ar' | 'fr' | 'de';
 
 const translations: Record<Language, any> = {
-  ja, en, 'zh-CN': zhCN, 'zh-TW': zhTW, ko, es, hi, ar, fr
+  ja, en, 'zh-CN': zhCN, 'zh-TW': zhTW, ko, es, hi, ar, fr, de
 };
 
 interface LanguageContextType {

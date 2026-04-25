@@ -30,7 +30,7 @@ export default function Lobby() {
 
   const langNames: Record<string, string> = {
     ja: '日本語', en: 'English', 'zh-CN': '简体中文', 'zh-TW': '繁體中文',
-    ko: '한국어', es: 'Español', hi: 'हिन्दी', ar: 'العربية', fr: 'Français'
+    ko: '한국어', es: 'Español', hi: 'हिन्दी', ar: 'العربية', fr: 'Français', de: 'Deutsch'
   };
 
   return (
@@ -54,6 +54,7 @@ export default function Lobby() {
             <option value="hi">हिन्दी</option>
             <option value="ar">العربية</option>
             <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
           </select>
         </div>
       </div>
