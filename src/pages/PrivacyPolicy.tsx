@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
         <div className="privacy-content">
           <p className="privacy-intro">{t('privacy.introduction')}</p>
 
-          {sections.map((section, i) => (
+          {sections.map((section: any, i: number) => (
             <section key={i} className="privacy-section">
               <h2 className="section-title">{section.title}</h2>
               <p className="section-content">{section.content}</p>
