@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const sections = (t('privacy.sections', { returnObjects: true }) as unknown as any[]) || [];
+  const sections = (t('privacy.sections', { returnObjects: true } as any) as any) || [];
 
   return (
     <div className="page privacy-page">
