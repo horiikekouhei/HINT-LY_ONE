@@ -26,8 +26,27 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
+    // 1. 保存された言語があるか確認
     const saved = localStorage.getItem('hintlyone_language') as Language;
-    return translations[saved] ? saved : 'ja';
+    if (saved && translations[saved]) return saved;
+
+    // 2. ブラウザの言語設定を確認
+    const browserLang = navigator.language.split('-')[0]; // 'ja-JP' -> 'ja'
+    const fullBrowserLang = navigator.language; // 'zh-CN' など
+
+    // 中国語の判定
+    if (fullBrowserLang.startsWith('zh')) {
+      if (fullBrowserLang === 'zh-CN' || fullBrowserLang === 'zh-SG') return 'zh-CN';
+      return 'zh-TW';
+    }
+
+    // その他の対応言語
+    const supportedLangs: Language[] = ['ja', 'en', 'ko', 'es', 'hi', 'ar', 'fr', 'de'];
+    const found = supportedLangs.find(l => l === browserLang);
+    if (found) return found;
+
+    // 3. デフォルト
+    return 'en';
   });
 
   useEffect(() => {
