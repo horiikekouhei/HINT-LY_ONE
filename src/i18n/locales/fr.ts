@@ -21,7 +21,10 @@ export const fr = {
     errors: {
       enterName: "Veuillez entrer votre nom",
       enterRoomId: "Veuillez entrer l'ID de la salle"
-    }
+    },
+    roundCount: "Nombre de tours",
+    freeMode: "Mode libre",
+    freeModeDesc: "Vous pouvez terminer à tout moment et rejoindre en cours de jeu",
   },
   waiting: {
     waitingTag: "🎮 En attente",
@@ -113,7 +116,35 @@ export const fr = {
     },
     common: {
       scoreLabel: "Points",
-      guesserRole: "Devineur"
+      guesserRole: "Devineur",
+      endGame: "Terminer",
+      leave: "Quitter",
+      privacyPolicy: "Politique de confidentialité",
+      shareX: "Partager sur X",
+      shareText: "J'ai obtenu {{score}} points sur HINT-LY ONE ! #HintlyOne",
     }
+  },
+  privacy: {
+    title: "Politique de confidentialité",
+    lastUpdated: "Dernière mise à jour : 25 avril 2024",
+    introduction: "Cette politique définit la manière dont nous traitons les informations personnelles sur ce site (HINT-LY ONE).",
+    sections: [
+      {
+        title: "1. Collecte et utilisation des données",
+        content: "Ce site utilise l'authentification anonyme de Firebase pour maintenir le jeu et gérer les sessions. Les informations collectées comprennent des identifiants d'utilisateur anonymes, les noms des joueurs et les indices/réponses envoyés."
+      },
+      {
+        title: "2. Utilisation des cookies",
+        content: "Ce site utilise les services Google Firebase et peut utiliser des cookies à des fins d'analyse et d'authentification."
+      },
+      {
+        title: "3. Publicité",
+        content: "Ce site peut afficher à l'avenir des publicités de tiers comme Google AdSense. Ces fournisseurs peuvent utiliser des cookies pour diffuser des publicités basées sur les visites antérieures de l'utilisateur."
+      },
+      {
+        title: "4. Contact",
+        content: "Pour toute question concernant cette politique, veuillez contacter le développeur."
+      }
+    ]
   }
 };

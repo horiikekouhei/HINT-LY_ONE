@@ -20,8 +20,14 @@ export const ko = {
     rule4: "남은 힌트만으로 정답을 맞히세요",
     errors: {
       enterName: "이름을 입력해주세요",
-      enterRoomId: "방 ID를 입력해주세요"
-    }
+      enterRoomId: "방 ID를 입력해주세요",
+      createFailed: "방 만들기에 실패했습니다",
+      notFound: "방을 찾을 수 없거나 이미 시작되었습니다",
+      joinFailed: "참여에 실패했습니다"
+    },
+    roundCount: "라운드 수",
+    freeMode: "프리 모드",
+    freeModeDesc: "언제든지 종료할 수 있으며 도중에 참여할 수 있습니다",
   },
   waiting: {
     waitingTag: "🎮 대기 중",
@@ -33,9 +39,13 @@ export const ko = {
     players: "참여자 ({{count}}명)",
     you: "당신",
     host: "👑 방장",
+    kick: "강퇴",
+    kickConfirm: "이 플레이어를 강퇴하시겠습니까?",
+    needMore: "{{count}}명 더 필요합니다",
     startGame: "게임 시작",
     waitingForHost: "방장이 게임을 시작하기를 기다리고 있습니다...",
-    needMore: "{{count}}명 더 필요합니다"
+    kickedTitle: "방에서 나갔습니다",
+    kickedDesc: "방장에 의해 방에서 제외되었습니다.",
   },
   game: {
     phase1: {
@@ -62,7 +72,9 @@ export const ko = {
       inputDesc: "제시어를 연상시키는 단어를 하나만 입력하세요.<br />중복된 힌트는 사라집니다! 공백은 사용할 수 없습니다.",
       inputPlaceholder: "힌트 입력...",
       warnOneWord: "⚠️ 한 단어만 입력 가능합니다",
-      submitBtn: "힌트 보내기"
+      submitBtn: "힌트 보내기",
+      rewriteBtn: "다시 쓰기",
+      joiningNextRound: "다음 라운드부터 게임에 참여합니다. 잠시만 기다려주세요.",
     },
     phase3: {
       tag: "단계 3 — 중복 체크",
@@ -89,19 +101,22 @@ export const ko = {
     phase5: {
       tag: "단계 5 — 결과 발표",
       answerWas: "제시어는",
-      guesserWas: "정답자 {{name}}님의 답변",
+      guesserWas: "정답자:",
       correct: "정답!",
       incorrect: "오답...",
       pass: "패스",
       hintList: "힌트 목록",
+      eliminated: "(중복/무효)",
       nextRoundBtn: "다음 라운드",
-      viewResultBtn: "게임 종료!"
+      viewResultBtn: "최종 결과 보기",
+      endFreeModeBtn: "게임 종료",
     },
     summary: {
       title: "게임 종료!",
       scoreTitle: "최종 스코어",
       scorePoints: "점",
       maxScore: "점 만점",
+      historyTitle: "📝 플레이 기록",
       evaluation: {
         perfect: "🏆 전설적인 팀워크! 완벽합니다!",
         great: "🌟 정말 멋진 팀워크였어요!",
@@ -113,7 +128,35 @@ export const ko = {
     },
     common: {
       scoreLabel: "스코어",
-      guesserRole: "정답자"
+      guesserRole: "정답자",
+      endGame: "종료",
+      leave: "나가기",
+      privacyPolicy: "개인정보 처리방침",
+      shareX: "X에 공유",
+      shareText: "HINT-LY ONE에서 {{score}}점을 획득했습니다! #HintlyOne",
     }
+  },
+  privacy: {
+    title: "개인정보 처리방침",
+    lastUpdated: "최종 업데이트: 2024년 4월 25일",
+    introduction: "본 사이트(HINT-LY ONE)에서의 개인정보 취급에 대해 다음과 같이 정합니다.",
+    sections: [
+      {
+        title: "1. 데이터 수집 및 이용",
+        content: "본 사이트는 게임 플레이 유지 및 세션 관리를 위해 Firebase 익명 인증을 이용합니다. 수집되는 정보는 익명 사용자 ID, 입력된 플레이어 이름, 게임 내에서 전송된 힌트 및 답변뿐입니다."
+      },
+      {
+        title: "2. 쿠키 이용",
+        content: "본 사이트는 Google Firebase 서비스를 이용하며, 분석 및 인증 목적으로 쿠키를 사용할 수 있습니다."
+      },
+      {
+        title: "3. 광고 게재",
+        content: "본 사이트는 향후 Google AdSense 등 제3자 제공업체를 통한 광고를 게재할 수 있습니다. 이러한 업체는 사용자의 과거 방문 정보를 기반으로 광고를 게재하기 위해 쿠키를 사용할 수 있습니다."
+      },
+      {
+        title: "4. 문의",
+        content: "본 방침에 관한 문의는 개발자에게 연락해 주시기 바랍니다."
+      }
+    ]
   }
 };

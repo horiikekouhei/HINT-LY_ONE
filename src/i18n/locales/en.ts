@@ -25,6 +25,9 @@ export const en = {
       joinFailed: "Failed to join room",
     },
     roomLanguage: "Room Language",
+    roundCount: "Round Count",
+    freeMode: "Free Mode",
+    freeModeDesc: "End anytime, join midway supported",
   },
   waiting: {
     waitingTag: "🎮 Waiting",

@@ -21,7 +21,10 @@ export const zhTW = {
     errors: {
       enterName: "請輸入名字",
       enterRoomId: "請輸入房間 ID"
-    }
+    },
+    roundCount: "回合數",
+    freeMode: "自由模式",
+    freeModeDesc: "可以隨時結束，也支持中途加入",
   },
   waiting: {
     waitingTag: "🎮 等待中",
@@ -113,7 +116,35 @@ export const zhTW = {
     },
     common: {
       scoreLabel: "得分",
-      guesserRole: "回答者"
+      guesserRole: "回答者",
+      endGame: "結束",
+      leave: "退出",
+      privacyPolicy: "隱私政策",
+      shareX: "在 X 上分享",
+      shareText: "我在 HINT-LY ONE 中獲得了 {{score}} 分！ #HintlyOne",
     }
+  },
+  privacy: {
+    title: "隱私政策",
+    lastUpdated: "最後更新日期：2024年4月25日",
+    introduction: "本網站（HINT-LY ONE）關於個人資訊的處理規定如下。",
+    sections: [
+      {
+        title: "1. 數據收集與使用",
+        content: "本網站使用 Firebase 匿名身份驗證來維持遊戲和管理會話。收集的資訊包括匿名用戶 ID、輸入的玩家名稱以及在遊戲中發送的提示和回答。"
+      },
+      {
+        title: "2. Cookie 的使用",
+        content: "本網站使用 Google Firebase 服務，可能會出於分析和身份驗證的目的使用 Cookie。"
+      },
+      {
+        title: "3. 廣告投遞",
+        content: "本網站將來可能會展示來自 Google AdSense 等第三方廣告聯盟的廣告。這些供應商可能會使用 Cookie 根據用戶過去的訪問資訊投遞廣告。"
+      },
+      {
+        title: "4. 聯繫我們",
+        content: "如果您對本政策有任何疑問，請聯繫開發人員。"
+      }
+    ]
   }
 };
