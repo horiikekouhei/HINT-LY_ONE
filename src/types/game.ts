@@ -56,7 +56,7 @@ export interface Room {
   isFreeMode?: boolean; // フリーモード（無限ラウンド）かどうか
   topicList: string[];
   usedTopics: string[];
-  language: 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'es' | 'hi' | 'ar' | 'fr'; // 部屋の言語
+  language: 'ja' | 'en' | 'zh-CN' | 'zh-TW' | 'ko' | 'es' | 'hi' | 'ar' | 'fr' | 'de'; // 部屋の言語
   createdAt: number;
   updatedAt: number; // 最終更新日時
 }
