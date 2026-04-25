@@ -7,9 +7,6 @@ export default function PrivacyPolicy() {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const rawSections = t('privacy.sections', { returnObjects: true } as any);
-  const sections = Array.isArray(rawSections) ? rawSections : [];
-
   return (
     <div className="page privacy-page">
       <div className="privacy-container card animate-fadeIn">
@@ -26,12 +23,25 @@ export default function PrivacyPolicy() {
         <div className="privacy-content">
           <p className="privacy-intro">{t('privacy.introduction')}</p>
 
-          {Array.isArray(sections) && sections.map((section: any, i: number) => (
-            <section key={i} className="privacy-section">
-              <h2 className="section-title">{section.title}</h2>
-              <p className="section-content">{section.content}</p>
-            </section>
-          ))}
+          <section className="privacy-section">
+            <h2 className="section-title">{t('privacy.sections.0.title')}</h2>
+            <p className="section-content">{t('privacy.sections.0.content')}</p>
+          </section>
+
+          <section className="privacy-section">
+            <h2 className="section-title">{t('privacy.sections.1.title')}</h2>
+            <p className="section-content">{t('privacy.sections.1.content')}</p>
+          </section>
+
+          <section className="privacy-section">
+            <h2 className="section-title">{t('privacy.sections.2.title')}</h2>
+            <p className="section-content">{t('privacy.sections.2.content')}</p>
+          </section>
+
+          <section className="privacy-section">
+            <h2 className="section-title">{t('privacy.sections.3.title')}</h2>
+            <p className="section-content">{t('privacy.sections.3.content')}</p>
+          </section>
         </div>
       </div>
     </div>
