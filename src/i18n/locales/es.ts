@@ -127,7 +127,7 @@ export const es = {
   },
   privacy: {
     title: "Política de privacidad",
-    lastUpdated: "Última actualización: 25 de abril de 2024",
+    lastUpdated: "Última actualización: 25 de abril de 2026",
     introduction: "Esta política establece cómo manejamos la información personal en este sitio (HINT-LY ONE).",
     sections: [
       {

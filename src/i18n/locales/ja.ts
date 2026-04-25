@@ -142,7 +142,7 @@ export const ja = {
   },
   privacy: {
     title: "プライバシーポリシー",
-    lastUpdated: "最終更新日: 2024年4月25日",
+    lastUpdated: "最終更新日: 2026年4月25日",
     introduction: "当サイト（HINT-LY ONE）における個人情報の取扱いについて以下の通り定めます。",
     sections: [
       {

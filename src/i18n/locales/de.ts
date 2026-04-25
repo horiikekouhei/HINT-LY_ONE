@@ -139,7 +139,7 @@ export const de = {
   },
   privacy: {
     title: "Datenschutzerklärung",
-    lastUpdated: "Zuletzt aktualisiert: 25. April 2024",
+    lastUpdated: "Zuletzt aktualisiert: 25. April 2026",
     introduction: "Diese Erklärung legt fest, wie wir mit personenbezogenen Daten auf dieser Website (HINT-LY ONE) umgehen.",
     sections: [
       {

@@ -139,7 +139,7 @@ export const ko = {
   },
   privacy: {
     title: "개인정보 처리방침",
-    lastUpdated: "최종 업데이트: 2024년 4월 25일",
+    lastUpdated: "최종 업데이트: 2026년 4월 25일",
     introduction: "본 사이트(HINT-LY ONE)에서의 개인정보 취급에 대해 다음과 같이 정합니다.",
     sections: [
       {

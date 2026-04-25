@@ -127,7 +127,7 @@ export const hi = {
   },
   privacy: {
     title: "गोपनीयता नीति",
-    lastUpdated: "अंतिम अपडेट: 25 अप्रैल 2024",
+    lastUpdated: "अंतिम अपडेट: 25 अप्रैल 2026",
     introduction: "यह नीति बताती है कि हम इस साइट (HINT-LY ONE) पर व्यक्तिगत जानकारी को कैसे संभालते हैं।",
     sections: [
       {

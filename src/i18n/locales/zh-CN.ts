@@ -127,7 +127,7 @@ export const zhCN = {
   },
   privacy: {
     title: "隐私政策",
-    lastUpdated: "最后更新日期：2024年4月25日",
+    lastUpdated: "最后更新日期：2026年4月25日",
     introduction: "本网站（HINT-LY ONE）关于个人信息的处理规定如下。",
     sections: [
       {

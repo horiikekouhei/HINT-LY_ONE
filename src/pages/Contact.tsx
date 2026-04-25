@@ -52,7 +52,7 @@ export default function Contact() {
         </div>
 
         <div className="contact-footer">
-          <p>© 2024 HINT-LY ONE</p>
+          <p>© 2026 HINT-LY ONE</p>
         </div>
       </div>
     </div>

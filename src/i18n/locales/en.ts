@@ -132,7 +132,7 @@ export const en = {
   },
   privacy: {
     title: "Privacy Policy",
-    lastUpdated: "Last Updated: April 25, 2024",
+    lastUpdated: "Last Updated: April 25, 2026",
     introduction: "This Privacy Policy describes how your personal information is handled on this site (HINT-LY ONE).",
     sections: [
       {

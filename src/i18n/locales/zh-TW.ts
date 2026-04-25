@@ -127,7 +127,7 @@ export const zhTW = {
   },
   privacy: {
     title: "隱私政策",
-    lastUpdated: "最後更新日期：2024年4月25日",
+    lastUpdated: "最後更新日期：2026年4月25日",
     introduction: "本網站（HINT-LY ONE）關於個人資訊的處理規定如下。",
     sections: [
       {
